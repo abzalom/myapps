@@ -1,0 +1,21 @@
+.table-scrollable {
+    overflow-x: auto;
+    max-width: 200%;
+    box-shadow: inset 0 0 5px rgba(150, 150 ,150,0.35);
+    margin: auto;
+}
+
+.tr-hover:hover {
+    background-color: rgb(249, 255, 164);
+}
+.text-dark:hover{
+    color: rgb(109, 109, 251) !important;
+}
+
+.select2-results__options {
+    padding-bottom: 3rem;
+}
+
+table.dataTable tr.dtrg-group th {
+    background-color: rgb(228, 249, 180);
+}
