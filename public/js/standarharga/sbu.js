@@ -110,8 +110,7 @@ $(document).ready(function () {
     });
 
     $('#addSshModal #rekening').on('change', function () {
-        $('#addSshModal #zonasi').html('<option value="0">Pilih...</option>');
-        $('#addSshModal #jenis').html('<option value="0">Pilih...</option>');
+        $('#addSshModal #zonasi').html('<option value="1" selected>Ya</option><option value="2">Tidak</option>');
         $('#addSshModal #uraian').attr('disabled', false);
         $('#addSshModal #spesifikasi').attr('disabled', false);
         $('#addSshModal #harga').attr('disabled', false);
@@ -120,14 +119,14 @@ $(document).ready(function () {
         $('#addSshModal #jenis').attr('disabled', false);
         $('#addSshModal #inflasi').attr('disabled', false);
 
-        $.get("/api/data/get/zonasi",
-            function (data, textStatus, jqXHR) {
-                $.each(data, function (key, value) {
-                    $('#addSshModal #zonasi').append('<option value="' + value.id + '">' + value.uraian + '</option>');
-                });
-            },
-            "JSON"
-        );
+        // $.get("/api/data/get/zonasi",
+        //     function (data, textStatus, jqXHR) {
+        //         $.each(data, function (key, value) {
+        //             $('#addSshModal #zonasi').append('<option value="' + value.id + '">' + value.uraian + '</option>');
+        //         });
+        //     },
+        //     "JSON"
+        // );
         $.get("/api/data/get/jeniskomponen",
             function (data, textStatus, jqXHR) {
                 $.each(data, function (key, value) {
@@ -151,7 +150,7 @@ $(document).ready(function () {
         $('#addSshModal #jenis').html('');
         $('#addSshModal #kategori').attr('disabled', true);
         $('#addSshModal #rekening').attr('disabled', true);
-        $('#addSshModal #zonasi').attr('disabled', true);
+        $('#addSshModal #zonasi').html('<option value="1" selected>Ya</option><option value="2">Tidak</option>');
         $('#addSshModal #jenis').attr('disabled', true);
     });
 
@@ -204,7 +203,7 @@ $(document).ready(function () {
         });
     });
 
-    $('.edit-komponen-ssh').on('click', function () {
+    $(document).on('click', '.edit-komponen-ssh', function () {
         idkomponen = $(this).val();
         $('#editSshModal #idkomponen').val(idkomponen);
         $.getJSON("/api/komponen/ssh/" + idkomponen,
@@ -224,8 +223,11 @@ $(document).ready(function () {
                 $('#editSshModal #spesifikasiEdit').val(komponen.spesifikasi);
                 $('#editSshModal #hargaEdit').val(komponen.harga);
                 $('#editSshModal #satuanEdit').val(komponen.satuan);
-                $('#editSshModal #zonasiEdit').val(komponen.zonasi);
-                console.log(komponen.e_jenis_komponen_id);
+                if (komponen.zonasi == true) {
+                    $('#editSshModal #zonasiEdit').html('<option value="1" selected>Ya</option><option value="2">Tidak</option>');
+                } else {
+                    $('#editSshModal #zonasiEdit').html('<option value="1">Ya</option><option value="2" selected>Tidak</option>');
+                }
                 $.get("/api/data/get/jeniskomponen",
                     function (data, textStatus, jqXHR) {
                         $.each(data, function (key, value) {

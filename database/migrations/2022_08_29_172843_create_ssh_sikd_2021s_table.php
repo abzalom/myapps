@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('k3_ssh_komponens', function (Blueprint $table) {
+        Schema::create('ssh_sikd_2021s', function (Blueprint $table) {
             $table->id();
             /**
              * Rekening
@@ -47,12 +47,7 @@ return new class extends Migration
             $table->decimal('harga', 14, 2);
             $table->text('satuan')->nullable();
             $table->decimal('inflasi', 14, 2)->nullable();
-            $table->integer('jenis');
-            // $table->foreignIdFor(EJenisKomponen::class);
-            $table->boolean('zonasi')->default(false);
-            // $table->integer('zona_1')->default(1);
-            // $table->integer('zona_2')->nullable();
-            // $table->integer('zona_3')->nullable();
+            $table->foreignIdFor(EJenisKomponen::class);
             $table->year('tahun');
             $table->softDeletes();
             $table->timestamps();
@@ -66,6 +61,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('k3_ssh_komponens');
+        Schema::dropIfExists('ssh_sikd_2021s');
     }
 };

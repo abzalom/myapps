@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editSshModalLabel">Edit Komponen SBU</h5>
+                <h5 class="modal-title" id="editSshModalLabel">Edit Komponen HSPK</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('hspk.hspkupdate') }}" method="post">
@@ -67,7 +67,17 @@
                             <label for="inflasi" class="form-label">Tingkat Komponen</label>
                             <input type="number" class="form-control" name="inflasi" id="inflasiEdit" placeholder="Persentasi (%)" autocomplete="off" style="width: 40%">
                         </div>
+
                         <hr class="text-success border-1 opacity-30">
+
+                        <div class="mb-3">
+                            <label for="zonasiEdit" class="form-label">Zonasi</label>
+                            <select class="form-select select2" name="zonasi" id="zonasiEdit">
+                                <option value="1" selected>Ya</option>
+                                <option value="2">Tidak</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">

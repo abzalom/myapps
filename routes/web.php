@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataPendukungController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\NomenController;
+use App\Http\Controllers\OlahdataController;
 use App\Http\Controllers\PaguController;
 use App\Http\Controllers\PendapatanController;
 use App\Http\Controllers\PengaturanController;
@@ -44,6 +45,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/', 'index')->name('apps.index');
+});
+
+// Rutin
+Route::controller(OlahdataController::class)->group(function () {
+    Route::get('/olahdata/nomenklatur', 'nomenklatur')->name('olahdata.nomenklatur');
+    Route::get('/olahdata/standarharga/2022', 'standarharga_2022')->name('olahdata.standarharga_2022');
+    Route::get('/olahdata/standarharga/2022/salin', 'standarharga_2022salin')->name('olahdata.standarharga_2022salin');
 });
 
 // Rutin
@@ -261,6 +269,7 @@ Route::controller(SshController::class)->group(function () {
     Route::post('/standarharga/ssh/update', 'sshupdate')->name('ssh.sshupdate');
     Route::post('/standarharga/ssh/upload', 'sshupload')->name('ssh.sshupload');
     Route::post('/standarharga/ssh/delete', 'sshdelete')->name('ssh.sshdelete');
+    Route::get('/standarharga/ssh/export/{kelompok}', 'sshexport')->name('ssh.sshexport');
     Route::get('/standarharga/ssh/validasi/ranwal', 'validasisshranwal')->name('ssh.validasisshranwal');
 });
 
@@ -329,6 +338,7 @@ Route::controller(RkaRanwalRutinController::class)->group(function () {
     Route::get('/rka/rutin/restore/{idkomponen}', 'rkarutinrestore')->name('rkarutin.rkarutinrestore');
     Route::get('/rka/rutin/get/komponen/{id}', 'getkomponenbyid')->name('rkarutin.getkomponenbyid');
 });
+
 // RKA OPD
 Route::controller(RkaRanwalController::class)->group(function () {
     Route::get('/rka/ranwal/opd/{idopd}/renja/{idrenja}/rincian/{idsubrincian}', 'rkaranwal')->name('rkaranwal.rkaranwal');

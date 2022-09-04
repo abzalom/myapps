@@ -122,7 +122,13 @@ class SshImport implements ToModel, WithHeadingRow
 
         $row['e_jenis_komponen_id'] = $row['jenis_produk'];
 
-        unset($row['jenis_produk']);
+        ltrim($row['uraian']);
+        ltrim($row['spesifikasi']);
+        ltrim($row['satuan']);
+
+        $row['zonasi'] = strtolower($row['zonasi']) == 'ya' ? true : false;
+
+        $row['jenis'] = $row['jenis_produk'];
         K3SshKomponen::create($row);
     }
 }

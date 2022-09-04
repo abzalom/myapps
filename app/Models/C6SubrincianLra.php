@@ -21,7 +21,7 @@ class C6SubrincianLra extends Model
             // 'kode_unik_jenis' => $this->kode_unik_jenis,
             // 'kode_unik_objek' => $this->kode_unik_objek,
             // 'kode_unik_rincian' => $this->kode_unik_rincian,
-            // 'kode_unik_subrincian' => $this->kode_unik_subrincian,
+            'kode_unik_subrincian' => $this->kode_unik_subrincian,
             'uraian' => $this->uraian,
         ];
     }

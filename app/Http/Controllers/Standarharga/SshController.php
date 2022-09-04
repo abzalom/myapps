@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Standarharga;
 
+use App\Exports\SshExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SshImport;
 use App\Models\B1AkunNeraca;
@@ -38,7 +39,6 @@ class SshController extends Controller
         }
         $ssh = B6SubrincianNeraca::with([
             'komponen' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
-            'komponen.zonasi',
             'komponen.typeproduk',
         ])
             ->whereIn('kode_unik_subrincian', $kodes['subrincian'])
@@ -54,6 +54,7 @@ class SshController extends Controller
 
     public function sshstore(Request $request)
     {
+        // return $request->all();
         if ($request->get('kategori') == 0) {
             return redirect()->back()->with('pesan', '<div class="alert alert-warning">Ketegori barang belum dipilih!</div>');
         }
@@ -132,7 +133,8 @@ class SshController extends Controller
             'harga' => $request->get('harga'),
             'satuan' => $request->get('satuan'),
             'inflasi' => $request->get('inflasi'),
-            'e_jenis_komponen_id' => $request->get('jenis'),
+            'zonasi' => $request->zonasi == 1 ? true : false,
+            'jenis' => $request->get('jenis'),
             'tahun' => $this->tahun->tahun,
         ];
         $createkomponen = K3SshKomponen::create($data);
@@ -141,6 +143,7 @@ class SshController extends Controller
 
     public function sshupload(Request $request)
     {
+        K3SshKomponen::truncate();
         $file = $request->file('file');
         Excel::import(new SshImport($this->tahun->tahun), $file);
         return redirect()->back()->with('pesan', '<div class="alert alert-success">Data komponen ssh berhasil diupload!</div>');
@@ -148,6 +151,7 @@ class SshController extends Controller
 
     public function sshupdate(Request $request)
     {
+        // return $request->all();
         if ($request->get('kategori') == 0) {
             return redirect()->back()->with('pesan', '<div class="alert alert-warning">Ketegori barang belum dipilih!</div>');
         }
@@ -205,7 +209,8 @@ class SshController extends Controller
         $komponen->spesifikasi = $request->get('spesifikasi');
         $komponen->harga = $request->get('harga');
         $komponen->satuan = $request->get('satuan');
-        $komponen->e_jenis_komponen_id = $request->get('jenis');
+        $komponen->jenis = $request->get('jenis');
+        $komponen->zonasi = $request->zonasi == 1 ? true : false;
         $komponen->inflasi = $request->get('inflasi');
 
         $komponen->save();
@@ -219,7 +224,82 @@ class SshController extends Controller
         return redirect()->back()->with('pesan', '<div class="alert alert-danger">Komponen Barang dengan nama <strong>' . $komponen->uraian . '</strong> berhasil dihapus</div>');
     }
 
-    public function sbuupload()
+    public function sshexport($kel)
     {
+        $komponen = K3SshKomponen::with('rekening')
+            ->where('kategori_kode', $kel)
+            ->orderBy('rekening_subrincian')
+            // ->limit(2)
+            ->get();
+        $data = [];
+
+        $zonasi = EZonasi::all();
+
+        foreach ($komponen as $key => $value) {
+            if ($value->zonasi) {
+                foreach ($zonasi as $key_zona => $val_zona) {
+                    $inflasi = $value->harga / 100 * $value->inflasi;
+                    // echo $value->harga * $val_zona->persentasi + $inflasi + $value->harga;
+                    // echo "<br>";
+                    $nama_zona = $val_zona->id == 1 ? ' (Zona Rendah)' : ($val_zona->id == 2 ? ' (Zona Sedang)' : ' (Zona Tinggi)');
+                    // dump($nama_zona);
+                    $data[$key_zona][$key]['kode'] = $value->kategori_subrincian;
+                    $data[$key_zona][$key]['uraian'] = $value->uraian;
+                    $data[$key_zona][$key]['spesifikasi'] = $value->spesifikasi . $nama_zona;
+                    $data[$key_zona][$key]['harga'] = $value->harga * $val_zona->persentasi + $inflasi + $value->harga;
+                    $data[$key_zona][$key]['satuan'] = $value->satuan;
+                    $data[$key_zona][$key]['inflasi'] = $value->inflasi;
+                    $data[$key_zona][$key]['rekening'] = $value->rekening_subrincian;
+                    $data[$key_zona][$key]['nama_rekening'] = $value->rekening->uraian;
+                    $data[$key_zona][$key]['kelompok'] = $value->kategori_kode;
+                }
+
+                // $data['zona_sedang'][$key]['kode'] = $value->kategori_subrincian;
+                // $data['zona_sedang'][$key]['uraian'] = $value->uraian . ' (Zona Sedang)';
+                // $data['zona_sedang'][$key]['spesifikasi'] = $value->spesifikasi;
+                // $data['zona_sedang'][$key]['harga'] = $value->harga * $value->zona_dua->persentasi + $value->harga;
+                // $data['zona_sedang'][$key]['satuan'] = $value->satuan;
+                // $data['zona_sedang'][$key]['inflasi'] = $value->inflasi;
+                // $data['zona_sedang'][$key]['rekening'] = $value->rekening_subrincian;
+                // $data['zona_sedang'][$key]['nama_rekening'] = $value->rekening->uraian;
+                // $data['zona_sedang'][$key]['kelompok'] = $value->kategori_kode;
+
+                // $data['zona_tinggi'][$key]['kode'] = $value->kategori_subrincian;
+                // $data['zona_tinggi'][$key]['uraian'] = $value->uraian . ' (Zona Tinggi)';
+                // $data['zona_tinggi'][$key]['spesifikasi'] = $value->spesifikasi;
+                // $data['zona_tinggi'][$key]['harga'] = $value->harga * $value->zona_dua->persentasi + $value->harga;
+                // $data['zona_tinggi'][$key]['satuan'] = $value->satuan;
+                // $data['zona_tinggi'][$key]['inflasi'] = $value->inflasi;
+                // $data['zona_tinggi'][$key]['rekening'] = $value->rekening_subrincian;
+                // $data['zona_tinggi'][$key]['nama_rekening'] = $value->rekening->uraian;
+                // $data['zona_tinggi'][$key]['kelompok'] = $value->kategori_kode;
+            } else {
+                $data['non_zona'][$key]['kode'] = $value->kategori_subrincian;
+                $data['non_zona'][$key]['uraian'] = $value->uraian;
+                $data['non_zona'][$key]['spesifikasi'] = $value->spesifikasi;
+                $data['non_zona'][$key]['harga'] = $value->harga;
+                $data['non_zona'][$key]['satuan'] = $value->satuan;
+                $data['non_zona'][$key]['inflasi'] = $value->inflasi;
+                $data['non_zona'][$key]['rekening'] = $value->rekening_subrincian;
+                $data['non_zona'][$key]['nama_rekening'] = $value->rekening->uraian;
+                $data['non_zona'][$key]['kelompok'] = $value->kategori_kode;
+            }
+        }
+        $filename = "";
+        if ($kel == 1) {
+            $filename = 'ssh_2023.xlsx';
+        }
+        if ($kel == 2) {
+            $filename = 'hspk_2023.xlsx';
+        }
+        if ($kel == 3) {
+            $filename = 'asb_2023.xlsx';
+        }
+        if ($kel == 4) {
+            $filename = 'sbu_2023.xlsx';
+        }
+        // dump($data);
+        // return $data;
+        return Excel::download(new SshExport($data), $filename);
     }
 }

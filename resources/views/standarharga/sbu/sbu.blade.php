@@ -16,6 +16,7 @@
                 </button>
             </div>
             <div class="col-6 text-end">
+                <a href="{{ route('ssh.sshexport', 4) }}" class="btn btn-success text-white"><i class="fa-solid fa-file-excel fa-lg"></i> Export</a>
                 <button class="btn btn-secondary" type="button" id="uploadSsh" data-bs-toggle="modal" data-bs-target="#uploadSshModal"><i class="fa-solid fa-upload"></i> Upload SSH</button>
             </div>
         </div>
@@ -42,6 +43,9 @@
                 <tbody class="align-middle">
                     @foreach ($ssh as $item)
                         @foreach ($item->komponen as $komponen)
+                        @php
+                            $inflasi = $komponen->harga / 100 * $komponen->inflasi;
+                        @endphp
                             <tr>
                                 <td>{{ $item->kode_unik_subrincian }} - {{ $item->uraian }}</td>
                                 <td>{{ $item->kode_unik_subrincian }}.{{ $komponen->kode_urut_komponen }}</td>
@@ -49,13 +53,19 @@
                                 <td>{{ $komponen->uraian }}</td>
                                 <td>{{ $komponen->spesifikasi }}</td>
                                 <td>{{ $komponen->satuan }}</td>
-                                <td>{{ number_format($komponen->harga, 2, ',','.') }}</td>
-                                <td>{{ number_format($komponen->harga / 100 * $komponen->inflasi + $komponen->harga, 2, ',','.') }}</td>
-                                @foreach ($zonasis as $zona)
-                                    <td>
-                                        {{ number_format($komponen->harga / 100 * $zona->persentasi + $komponen->harga / 100 * $komponen->inflasi + $komponen->harga, 2, ',','.') }}
+                                <td class="text-end">{{ number_format($komponen->harga, 2, ',','.') }}</td>
+                                <td class="text-end">{{ number_format($inflasi, 2, ',','.') }}</td>
+                                @if ($komponen->zonasi)
+                                @foreach ($zonasis as $zonasi)
+                                    <td class="text-end">
+                                        {{ number_format($komponen->harga * $zonasi->persentasi + $komponen->harga, 2, ',','.') }}
                                     </td>
                                 @endforeach
+                                @else
+                                <td class="text-end">{{ number_format($inflasi + $komponen->harga, 2, ',','.') }}</td>
+                                <td class="text-end">0,00</td>
+                                <td class="text-end">0,00</td>
+                                @endif
                                 <td>{{ $komponen->kategori_name }}</td>
                                 <td>
                                     <div class="d-grid gap-2 d-md-flex justify-content-center">

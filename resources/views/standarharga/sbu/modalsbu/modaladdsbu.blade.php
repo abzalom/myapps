@@ -66,7 +66,17 @@
                             <label for="inflasi" class="form-label">Tingkat Komponen</label>
                             <input type="number" class="form-control" name="inflasi" id="inflasi" placeholder="Persentasi (%)" autocomplete="off" style="width: 40%" disabled>
                         </div>
+
                         <hr class="text-success border-1 opacity-30">
+
+                        <div class="mb-3">
+                            <label for="zonasi" class="form-label">Zonasi</label>
+                            <select class="form-select select2" name="zonasi" id="zonasi">
+                                <option value="1" selected>Ya</option>
+                                <option value="2">Tidak</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">

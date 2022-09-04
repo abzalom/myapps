@@ -31,11 +31,12 @@ class Navbar extends Component
                 '/perangkat' => 'OPD',
                 '/pendapatan' => 'Pendapatan',
             ],
-            'Referensi Rekening' => [
+            'Referensi' => [
                 '/rekening/neraca' => 'Rekening Neraca',
                 '/rekening/lra' => 'Rekening LRA',
                 '/rekening/lo' => 'Rekening LO',
                 '/datapendukung' => 'Data Pendukung',
+                '/nomens/urusan' => 'Nomenklatur',
             ],
             'Pengaturan' => [
                 '/pengaturan/rkpd' => 'RKPD',
@@ -47,7 +48,6 @@ class Navbar extends Component
             'Catatan' => [
                 '/history/pagu' => 'History pagu OPD',
             ],
-            '/nomens/urusan' => 'Nomenklatur',
             'Rutin' => [
                 '/rutin' => 'Rutin',
                 '/rutin/kegiatan' => 'Kegiatan',
@@ -58,10 +58,15 @@ class Navbar extends Component
                 '/standarharga/hspk' => '2. HSPK',
                 '/standarharga/asb' => '3. ASB',
                 '/standarharga/sbu' => '4. SBU',
+                // route('ssh.sshexport') => 'Export Excel',
             ],
             'Laporan' => [
                 '#renja' => 'Renja',
                 '#rka' => 'RKA',
+            ],
+            'Olah Data' => [
+                '/olahdata/nomenklatur' => 'Nomenklatur',
+                '/olahdata/standarharga/2022' => 'Standar Harga 2022'
             ],
         ];
         return view('components.navbar', compact('navs'));

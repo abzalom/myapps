@@ -35,7 +35,6 @@ class SbuController extends Controller
         }
         $ssh = D6SubrincianLo::with([
             'komponen' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 4]),
-            'komponen.zonasi',
             'komponen.typeproduk',
         ])
             ->whereIn('kode_unik_subrincian', $kodes['subrincian'])
@@ -129,7 +128,8 @@ class SbuController extends Controller
             'harga' => $request->get('harga'),
             'satuan' => $request->get('satuan'),
             'inflasi' => $request->get('inflasi'),
-            'e_jenis_komponen_id' => $request->get('jenis'),
+            'zonasi' => $request->zonasi == 1 ? true : false,
+            'jenis' => $request->get('jenis'),
             'tahun' => $this->tahun->tahun,
         ];
         $createkomponen = K3SshKomponen::create($data);
@@ -202,7 +202,8 @@ class SbuController extends Controller
         $komponen->spesifikasi = $request->get('spesifikasi');
         $komponen->harga = $request->get('harga');
         $komponen->satuan = $request->get('satuan');
-        $komponen->e_jenis_komponen_id = $request->get('jenis');
+        $komponen->jenis = $request->get('jenis');
+        $komponen->zonasi = $request->zonasi == 1 ? true : false;
         $komponen->inflasi = $request->get('inflasi');
 
         $komponen->save();
