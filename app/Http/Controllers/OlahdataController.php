@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SshSikd2022Import;
 use App\Models\A2Bidang;
 use App\Models\B6SubrincianNeraca;
+use App\Models\D6SubrincianLo;
 use App\Models\EZonasi;
 use App\Models\K2SshKategori;
 use App\Models\K3SshKomponen;
+use App\Models\Ssh1Tag2022;
+use App\Models\Ssh2Kategori2022;
 use App\Models\SshSikd_2021;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OlahdataController extends Controller
 {
@@ -25,7 +30,8 @@ class OlahdataController extends Controller
 
     public function standarharga_2022()
     {
-        $kategoris = K2SshKategori::whereIn('kategori_kode', [1])->where('tahun', $this->tahun->tahun)->get('kode_unik_subrincian');
+        // $kategoris = K2SshKategori::whereIn('kategori_kode', [1])->where('tahun', $this->tahun->tahun)->get('kode_unik_subrincian');
+        $kategoris = Ssh2Kategori2022::get('kode_unik_subrincian');
         $kodes = [];
         if (count($kategoris) == 0) {
             $kodes = [
@@ -42,19 +48,25 @@ class OlahdataController extends Controller
             }
         }
         $ssh = B6SubrincianNeraca::with([
-            'sshsikd' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
-            'sshsikd.zonasi',
-            'sshsikd.typeproduk',
+            // 'sshsikd2022' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
+            'sshsikd2022',
+            'sshsikd2022.zonasi',
+            'sshsikd2022.typeproduk',
         ])
             ->whereIn('kode_unik_subrincian', $kodes['subrincian'])
             ->where('kode_kategori_ssh', 1)
             ->get();
+        // dump($ssh->toArray());
         return view('olahdata.standarharga2022', [
             'title' => 'Olah Data',
             'desc' => 'Olah Data Standar Harga 2022',
             'sshs' => $ssh,
             'zonasis' => EZonasi::all(),
         ]);
+    }
+
+    public function standarharga_2022_cetak()
+    {
     }
 
     public function standarharga_2022salin()
@@ -94,5 +106,171 @@ class OlahdataController extends Controller
         //     );
         // }
         // return Redirect::route('olahdata.standarharga_2022');
+    }
+
+    public function standarharga_2022upload(Request $request)
+    {
+        // echo $this->tahun->tahun;
+        $file = $request->file('file');
+        // echo $file->getClientOriginalName();
+        Excel::import(new SshSikd2022Import, $file);
+        return redirect()->back()->with('pesan', '<div class="alert alert-info">File Standar Harga 2022 <strong>' . $file->getClientOriginalName() . '</strong> Berhasil Diupload!</div>');
+    }
+
+    public function standarharga_2022cetak()
+    {
+        $kategoris = Ssh2Kategori2022::get('kode_unik_subrincian');
+        $rekenings = Ssh1Tag2022::get('kode_unik_subrincian');
+        $kodes = [];
+        if (count($kategoris) == 0) {
+            $kodes['kategori'] = [
+                'akun' => [null],
+                'kelompok' => [null],
+                'jenis' => [null],
+                'objek' => [null],
+                'rincian' => [null],
+                'subrincian' => [null],
+            ];
+            $kodes['rekening'] = [
+                'akun' => [null],
+                'kelompok' => [null],
+                'jenis' => [null],
+                'objek' => [null],
+                'rincian' => [null],
+                'subrincian' => [null],
+            ];
+        } else {
+            foreach ($kategoris as $value) {
+                $kodes['kategori']['subrincian'][] = $value->kode_unik_subrincian;
+            }
+            foreach ($rekenings as $value) {
+                $kodes['rekening']['subrincian'][] = $value->kode_unik_subrincian;
+            }
+        }
+        $ssh1 = B6SubrincianNeraca::with([
+            // 'sshsikd2022' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
+            'sshsikd2022',
+            'sshsikd2022.zonasi',
+            'sshsikd2022.typeproduk',
+        ])
+            ->whereIn('kode_unik_subrincian', $kodes['kategori']['subrincian'])
+            // ->limit(10)
+            ->get();
+        $ssh2 = D6SubrincianLo::with([
+            // 'sshsikd2022' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
+            'sshsikd2022',
+            'sshsikd2022.zonasi',
+            'sshsikd2022.typeproduk',
+        ])
+            ->whereIn('kode_unik_subrincian', $kodes['kategori']['subrincian'])
+            // ->limit(10)
+            ->get();
+        // dump($kodes['rekening']);
+        $ssh = $ssh1->merge($ssh2);
+        // dump($ssh->toArray());
+        // die;
+        $kelompok = [
+            [
+                'kode' => 1,
+                'nama' => 'Standar Satuan Harga (SSH)',
+            ],
+            [
+                'kode' => 2,
+                'nama' => 'Harga Satuan Pokok Kegiatan (HSPK)',
+            ],
+            [
+                'kode' => 3,
+                'nama' => 'Analisa Standar Belenja',
+            ],
+            [
+                'kode' => 4,
+                'nama' => 'Standar Biaya Umum (SBU)',
+            ],
+        ];
+        return view('olahdata.standarharga2022cetak', [
+            'title' => 'Olah Data',
+            'desc' => 'Olah Data Standar Harga 2022',
+            'sshs' => $ssh,
+            'kelompok' => $kelompok,
+            'zonasis' => EZonasi::all(),
+        ]);
+    }
+    public function standarharga_2022cetak_versi2()
+    {
+        $kategoris = Ssh2Kategori2022::get('kode_unik_subrincian');
+        $rekenings = Ssh1Tag2022::get('kode_unik_subrincian');
+        $kodes = [];
+        if (count($kategoris) == 0) {
+            $kodes['kategori'] = [
+                'akun' => [null],
+                'kelompok' => [null],
+                'jenis' => [null],
+                'objek' => [null],
+                'rincian' => [null],
+                'subrincian' => [null],
+            ];
+            $kodes['rekening'] = [
+                'akun' => [null],
+                'kelompok' => [null],
+                'jenis' => [null],
+                'objek' => [null],
+                'rincian' => [null],
+                'subrincian' => [null],
+            ];
+        } else {
+            foreach ($kategoris as $value) {
+                $kodes['kategori']['subrincian'][] = $value->kode_unik_subrincian;
+            }
+            foreach ($rekenings as $value) {
+                $kodes['rekening']['subrincian'][] = $value->kode_unik_subrincian;
+            }
+        }
+        $ssh1 = B6SubrincianNeraca::with([
+            // 'sshsikd2022' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
+            'sshsikd2022',
+            'sshsikd2022.zonasi',
+            'sshsikd2022.typeproduk',
+        ])
+            ->whereIn('kode_unik_subrincian', $kodes['kategori']['subrincian'])
+            ->limit(10)
+            ->get();
+        $ssh2 = D6SubrincianLo::with([
+            // 'sshsikd2022' => fn ($q) => $q->where(['tahun' => $this->tahun->tahun, 'kategori_kode' => 1]),
+            'sshsikd2022',
+            'sshsikd2022.zonasi',
+            'sshsikd2022.typeproduk',
+        ])
+            ->whereIn('kode_unik_subrincian', $kodes['kategori']['subrincian'])
+            ->limit(10)
+            ->get();
+        // dump($kodes['rekening']);
+        $ssh = $ssh1->merge($ssh2);
+        // dump($ssh->toArray());
+        // die;
+        $kelompok = [
+            [
+                'kode' => 1,
+                'nama' => 'Standar Satuan Harga (SSH)',
+            ],
+            [
+                'kode' => 2,
+                'nama' => 'Harga Satuan Pokok Kegiatan (HSPK)',
+            ],
+            [
+                'kode' => 3,
+                'nama' => 'Analisa Standar Belenja',
+            ],
+            [
+                'kode' => 4,
+                'nama' => 'Standar Biaya Umum (SBU)',
+            ],
+        ];
+        return view('olahdata.standarharga2022cetak_versi2', [
+            'title' => 'Olah Data',
+            'desc' => 'Olah Data Standar Harga 2022',
+            'sshs' => $ssh,
+            'kelompok' => $kelompok,
+            'zonasis' => EZonasi::all(),
+        ]);
     }
 }

@@ -52,6 +52,9 @@ Route::controller(OlahdataController::class)->group(function () {
     Route::get('/olahdata/nomenklatur', 'nomenklatur')->name('olahdata.nomenklatur');
     Route::get('/olahdata/standarharga/2022', 'standarharga_2022')->name('olahdata.standarharga_2022');
     Route::get('/olahdata/standarharga/2022/salin', 'standarharga_2022salin')->name('olahdata.standarharga_2022salin');
+    Route::post('/olahdata/standarharga/2022/upload', 'standarharga_2022upload')->name('olahdata.standarharga_2022upload');
+    Route::get('/olahdata/standarharga/2022/cetak', 'standarharga_2022cetak')->name('olahdata.standarharga_2022cetak');
+    Route::get('/olahdata/standarharga/2022/cetak_versi2', 'standarharga_2022cetak_versi2')->name('olahdata.standarharga_2022cetak_versi2');
 });
 
 // Rutin

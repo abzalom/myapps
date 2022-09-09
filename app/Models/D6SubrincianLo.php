@@ -44,4 +44,15 @@ class D6SubrincianLo extends Model
     {
         return $this->hasMany(K3SshKomponen::class, 'kategori_subrincian', 'kode_unik_subrincian');
     }
+
+
+    /**
+     * Get all of the sshsikd for the B6SubrincianNeraca
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sshsikd2022(): HasMany
+    {
+        return $this->hasMany(SshSikd_2022::class, 'kategori_subrincian', 'kode_unik_subrincian');
+    }
 }

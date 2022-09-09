@@ -5,17 +5,30 @@
 
     @if (session()->has('pesan'))
     <div class="row mt-4 mb-4">
-        <div class="alert alert-info">
-            {{ session()->get('pesan') }}
-        </div>
+        {!! session()->get('pesan') !!}
     </div>
     @endif
 
-    {{-- <div class="row mb-4 mt-4">
-        <div class="col">
+    <div class="row mb-4 mt-4">
+        {{-- <div class="col">
             <a href="{{ route('olahdata.standarharga_2022salin') }}" class="btn btn-primary"><i class="fa-solid fa-copy fa-lg"></i> Salin</a>
+        </div> --}}
+        <div class="col-4">
+            <form action="{{ route('olahdata.standarharga_2022upload') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="input-group">
+                    <input name="file" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon04">Upload</button>
+                </div>
+            </form>
         </div>
-    </div> --}}
+        <div class="col-4">
+            <a href="{{ route('olahdata.standarharga_2022cetak') }}" target="_blank" class="btn btn-primary"><i class="fa-solid fa-print fa-lg"></i> Cetak</a>
+        </div>
+        <div class="col-4">
+            <a href="{{ route('olahdata.standarharga_2022cetak_versi2') }}" target="_blank" class="btn btn-primary"><i class="fa-solid fa-print fa-lg"></i> Cetak Versi 2</a>
+        </div>
+    </div>
 
     <div class="row mb-4 mt-4">
         <div class="table-responsive mt-4 mb-4">
@@ -34,12 +47,12 @@
                         <th>Zona 2</th>
                         <th>Zona 3</th>
                         <th>kel</th>
-                        <th></th>
+                        {{-- <th></th> --}}
                     </tr>
                 </thead>
                 <tbody class="align-middle">
                     @foreach ($sshs as $item)
-                        @foreach ($item->sshsikd as $sshsikd)
+                        @foreach ($item->sshsikd2022 as $sshsikd)
                             <tr>
                                 <td>{{ $item->kode_unik_subrincian }} - {{ $item->uraian }}</td>
                                 <td>{{ $item->kode_unik_subrincian }}.{{ $sshsikd->kode_urut_sshsikd }}</td>
@@ -55,12 +68,12 @@
                                     </td>
                                 @endforeach
                                 <td>{{ $sshsikd->kategori_name }}</td>
-                                <td>
+                                {{-- <td>
                                     <div class="d-grid gap-2 d-md-flex justify-content-center">
                                         <button type="button" class="btn btn-sm btn-warning me-md-1 edit-komponen-ssh" data-bs-toggle="modal" data-bs-target="#editSshModal" value="{{ $sshsikd->id }}"><i class="fa-solid fa-pencil-square fa-lg"></i></button>
                                         <button type="button" class="btn btn-sm btn-danger delete-komponen-ssh" data-bs-toggle="modal" data-bs-target="#deleteSshModal" value="{{ $sshsikd->id }}"><i class="fa-solid fa-trash fa-lg"></i></button>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     @endforeach
