@@ -30,6 +30,7 @@ use App\Http\Controllers\Standarharga\AsbController;
 use App\Http\Controllers\Standarharga\HspkController;
 use App\Http\Controllers\Standarharga\SbuController;
 use App\Http\Controllers\Standarharga\SshController;
+use App\Http\Controllers\TagKategoriBelanjaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +56,7 @@ Route::controller(OlahdataController::class)->group(function () {
     Route::post('/olahdata/standarharga/2022/upload', 'standarharga_2022upload')->name('olahdata.standarharga_2022upload');
     Route::get('/olahdata/standarharga/2022/cetak', 'standarharga_2022cetak')->name('olahdata.standarharga_2022cetak');
     Route::get('/olahdata/standarharga/2022/cetak_versi2', 'standarharga_2022cetak_versi2')->name('olahdata.standarharga_2022cetak_versi2');
+    Route::get('/standarharga/cetak', 'standarharga_2023cetak')->name('olahdata.standarharga_2023cetak');
 });
 
 // Rutin
@@ -86,6 +88,7 @@ Route::controller(RekeningLraController::class)->group(function () {
     Route::get('/rekening/lra/objek/{jenis}', 'objek')->name('lra.objek');
     Route::get('/rekening/lra/rincian/{objek}', 'rincian')->name('lra.rincian');
     Route::get('/rekening/lra/subrincian/{rincian}', 'subrincian')->name('lra.subrincian');
+    Route::get('/rekening/lra/rekap/{akun}', 'rekapan')->name('lra.rekapan');
 });
 
 // Rekening Neraca
@@ -116,6 +119,7 @@ Route::controller(PerangkatController::class)->group(function () {
     Route::post('/perangkat/store/kepala', 'storekepalaopd')->name('opd.storekepalaopd');
     Route::post('/perangkat/update', 'update')->name('opd.update');
     Route::get('/perangkat/api/edit/{id}', 'apiedit')->name('opd.apiedit');
+    Route::post('/perangkat/update/kelompok_bidang', 'updatekelompokbidang')->name('opd.updatekelompokbidang');
 });
 
 // Pendapatan
@@ -168,53 +172,6 @@ Route::controller(PaguController::class)->group(function () {
     Route::post('/pengaturan/pagu/update/reguler/', 'paguupdatereguler')->name('pengaturan.paguupdatereguler');
     Route::post('/pengaturan/pagu/update/pindah/', 'paguupdatepindah')->name('pengaturan.paguupdatepindah');
     Route::post('/pengaturan/pagu/validasi', 'paguvalidasi')->name('pengaturan.paguvalidasi');
-});
-
-// Api
-Route::controller(ApiController::class)->group(function () {
-    Route::get('/pagu/pindahan/opd/{idopd}', 'pagupindahopd')->name('api.pagupindahopd');
-    Route::get('/api/pendapatan/komponen/{idkomponen}', 'pendapatankomponen')->name('api.pendapatankomponen');
-    Route::get('/api/pagu/add/opd/{idopd}/bidang/{idbidang}', 'paguexceptidbyopd')->name('api.paguexceptidbyopd');
-
-    // Renja
-    Route::get('/api/renja/add/bidang/{idopd}', 'getrenjabidang')->name('api.getrenjabidang');
-    Route::get('/api/renja/add/program/{idbid}', 'getrenjaprogrambybidang')->name('api.getrenjaprogrambybidang');
-    Route::get('/api/renja/add/kegiatan/{idprog}', 'getrenjakegiatanbyprogram')->name('api.getrenjakegiatanbyprogram');
-    Route::get('/api/renja/add/subkegiatan/{idkeg}/opd/{idopd}', 'getrenjasubkegiatanbykegiatan')->name('api.getrenjasubkegiatanbykegiatan');
-    Route::get('/api/renja/add/prioritas', 'getprioritas')->name('api.getprioritas');
-    Route::get('/api/renja/get/prioritas/prog/{idprog}/opd/{idopd}', 'getprioritasprog')->name('api.getprioritasprog');
-    Route::get('/api/renja/get/prioritas/keg/{idkeg}/opd/{idopd}', 'getprioritaskeg')->name('api.getprioritaskeg');
-    Route::get('/api/renja/sumberdana/opd/{idopd}/bidang/{idbid}', 'getsumberdanabyopd')->name('api.getsumberdanabyopd');
-
-    // Data Pendukung
-    Route::get('/api/data/get/klasifikasi', 'getklasifikasi')->name('api.getklasifikasi');
-    Route::get('/api/data/get/penerimamanfaat', 'getpenerimamanfaat')->name('api.getpenerimamanfaat');
-    Route::get('/api/data/get/kalender', 'getkalender')->name('api.getkalender');
-    Route::get('/api/data/get/lokasi', 'getlokasi')->name('api.getlokasi');
-    Route::get('/api/data/get/zonasi', 'getzonasi')->name('api.getzonasi');
-    Route::get('/api/data/get/jeniskomponen', 'getjeniskomponen')->name('api.getjeniskomponen');
-
-    // Indikator Non Rutin
-    Route::get('/api/indikator/program/{idprog}/opd/{idopd}', 'getindikatorprog')->name('api.getindikatorprog');
-    Route::get('/api/renja/indikatorsubkeg/{idindisub}', 'getindikatorsubkeg')->name('api.getindikatorsubkeg');
-
-    // Indikator Rutin
-    Route::get('/api/indikator/program/rutin/{idindikatorprog}', 'getindikatorprogrutin')->name('api.getindikatorprogrutin');
-    Route::get('/api/indikator/kegiatan/rutin/{idindikatorkeg}', 'getindikatorkegrutin')->name('api.getindikatorkegrutin');
-
-    // Pekerjaan DAK
-    Route::get('/api/dak/lokus', 'lokusdak')->name('api.lokusdak');
-
-    // Rutin
-    Route::get('/api/rutin/kegiatan', 'getkegiatanrutin')->name('api.getkegiatanrutin');
-    Route::get('/api/rutin/subkegiatan/{idkegiatan}/opd/{idopd}', 'getsubkegiatanrutin')->name('api.getsubkegiatanrutin');
-
-    // Rutin By ID
-    Route::get('/api/rutin/subkegiatan/{idsubkeg}', 'getsubkegrutinbyid')->name('api.getsubkegrutinbyid');
-    Route::get('/api/rutin/subrincian/{idsubrincian}', 'getsubrincianrutinbyid')->name('api.getsubrincianrutinbyid');
-
-    // Komponen SSH
-    Route::get('/api/komponen/ssh/{id}', 'komponenssh')->name('api.komponenssh');
 });
 
 // Ajax For HTML Return
@@ -306,32 +263,6 @@ Route::controller(SbuController::class)->group(function () {
     Route::get('/standarharga/sbu/validasi/ranwal', 'validasisburanwal')->name('sbu.validasisburanwal');
 });
 
-// API Rekening Neraca
-Route::controller(ApiNeracaController::class)->group(function () {
-    Route::get('/api/neraca/subrincian/search', 'subrincianneracasearch')->name('apineraca.subrincianneracasearch');
-    Route::get('/api/neraca/kategori/{ketegori}/search', 'kategorineracasearch')->name('apineraca.kategorineracasearch');
-    Route::get('/api/neraca/subrincian/bykode/{kode}', 'subrincianbykode')->name('apineraca.subrincianbykode');
-});
-
-// API Rekening LRA
-Route::controller(ApiLraController::class)->group(function () {
-    Route::get('/api/lra/{kategori}/subrincian/search', 'apisubrincianlrasearch')->name('apilra.apisubrincianlrasearch');
-    Route::get('/api/lra/subrincian/rka/search', 'apisubrincianlrarkasearch')->name('apilra.apisubrincianlrarkasearch');
-    Route::get('/api/lra/subrincian/bykode/{kode}', 'subrincianbykode')->name('apineraca.subrincianbykode');
-});
-
-// API Rekening Neraca
-Route::controller(ApiLoController::class)->group(function () {
-    Route::get('/api/lo/subrincian/search', 'subrincianlosearch')->name('apilo.subrincianlosearch');
-    Route::get('/api/lo/kategori/{ketegori}/search', 'kategorilosearch')->name('apilo.kategorilosearch');
-    Route::get('/api/lo/subrincian/bykode/{kode}', 'subrincianbykode')->name('apineraca.subrincianbykode');
-});
-
-// API SSH
-Route::controller(ApiSshRutinController::class)->group(function () {
-    Route::get('/api/ssh/komponen/rutin/{rekening}', 'komponenrutin')->name('sshrutin.komponenrutin');
-});
-
 // RKA OPD
 Route::controller(RkaRanwalRutinController::class)->group(function () {
     Route::get('/rka/rutin/opd/{idopd}/renja/{idrenja}/rincian/{idsubrincian}', 'rkarutin')->name('rkarutin.rkarutin');
@@ -351,3 +282,12 @@ Route::controller(RkaRanwalController::class)->group(function () {
     Route::get('/rka/ranwal/restore/{idkomponen}', 'rkaranwalrestore')->name('rkaranwal.rkaranwalrestore');
     Route::get('/rka/ranwal/get/komponen/{id}', 'getkomponenbyid')->name('rkaranwal.getkomponenbyid');
 });
+
+// Rekening Belanja Tag Kategori
+Route::controller(TagKategoriBelanjaController::class)->group(function () {
+    Route::get('/rekening/belanja', 'tagrekeningbelanja')->name('neraca.rekeningbelanja');
+    Route::post('/rekening/belanja', 'storetagrekeningbelanja');
+    Route::post('/rekening/belanja/autotag', 'autotagrekeningbelanja')->name('neraca.autotagging.rekeningbelanja');
+});
+
+require __DIR__ . '/api.php';

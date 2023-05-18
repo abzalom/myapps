@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\A2Bidang;
+use App\Models\EKelompokBidang;
 use App\Models\F1Perangkat;
 use App\Models\F2Tagging;
 use App\Models\F4KepalaOpd;
@@ -20,12 +21,15 @@ class PerangkatController extends Controller
         if ($this->tahun == null) {
             return redirect()->route('pengaturan.rkpd')->with('pesan', 'Tahun anggaran belum di setting');
         }
+        $opds = F1Perangkat::with('kel_bidang')->where('tahun', $this->tahun->tahun)->get();
+        // return $opds;
         return view('master.perangkat.opd', [
             'title' => 'OPD',
             'desc' => 'Kelolah OPD',
             'bidangs' => A2Bidang::all(),
-            'opds' => F1Perangkat::where('tahun', $this->tahun->tahun)->get(),
+            'opds' => $opds,
             'tahun' => $this->tahun->tahun,
+            'kelbidangs' => EKelompokBidang::all(),
         ]);
     }
 
@@ -59,6 +63,7 @@ class PerangkatController extends Controller
         $kode = $kode1 . $kode2 . $kode3 . $request->get('kode');
         $opd['kode_urut'] = $request->get('kode');
         $opd['nama_perangkat'] = $request->get('opd');
+        $opd['kelompok_bidang'] = $request->get('kelompok_bidang');
         $opd['kode_perangkat'] = $kode;
         $opd['tahun'] = $this->tahun->tahun;
 
@@ -144,6 +149,7 @@ class PerangkatController extends Controller
         // return $perangkat;
         $perangkat->kode_urut = $request->get('kode');
         $perangkat->nama_perangkat = $request->get('opd');
+        $perangkat->kelompok_bidang = $request->get('kelompok_bidang');
         $perangkat->kode_perangkat = $kode;
         $perangkat->save();
 
@@ -212,5 +218,13 @@ class PerangkatController extends Controller
         $kepalaopd = F4KepalaOpd::create($request->except('_token'));
         $opd = F1Perangkat::find($request->f1_perangkat_id);
         return redirect()->back()->with('pesan', $kepalaopd->nama . ' telah ditambahkan sebagai ' . $kepalaopd->jabatan . ' pada ' . $opd->nama_perangkat);
+    }
+
+    public function updatekelompokbidang(Request $request)
+    {
+        $opds = F1Perangkat::whereIn('id', $request->idopd)->update([
+            'kelompok_bidang' => $request->kelompok_bidang,
+        ]);
+        return redirect()->back()->with('pesan', 'Data Perangkat telah diupdate');
     }
 }

@@ -38,6 +38,8 @@ class NomenController extends Controller
         $nomens = A1Urusan::with([
             'bidang' => fn ($q) => $q->where('id', $bidang),
             'bidang.program',
+            'bidang.program.kegiatan',
+            'bidang.program.kegiatan.subkegiatan',
         ])->where(['kewenangan' => true])->find($urusan);
         // dd($nomens->toArray());
         return view('nomens.program', [

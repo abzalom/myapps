@@ -125,7 +125,7 @@ class RekeningNeracaController extends Controller
             echo '<div class="col-11">';
             echo '<div class="row">';
             echo '<div class="col-10">';
-            echo $subrincian->kode_unik_subrincian . ' - ' . $subrincian->uraian;
+            echo '<a href="#copy" onclick="copyToClipboard(\'ambil_' . $subrincian->kode_unik_subrincian . '\')"><i class="far fa-copy fa-lg"></i></a> ' . '<span id="ambil_' . $subrincian->kode_unik_subrincian . '">' . $subrincian->kode_unik_subrincian . '</span>' . ' - ' . $subrincian->uraian;
             echo '</div>';
             echo '<div class="col-2">';
             echo $subrincian->kategori_ssh . ' - ' . $subrincian->kode_kategori_ssh;

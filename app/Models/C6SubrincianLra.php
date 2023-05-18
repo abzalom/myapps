@@ -27,6 +27,16 @@ class C6SubrincianLra extends Model
     }
 
     /**
+     * Get all of the kategori for the C6SubrincianLra
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kategori(): HasMany
+    {
+        return $this->hasMany(TagKategoriBelanja::class, 'kode_belanja', 'kode_unik_subrincian');
+    }
+
+    /**
      * Get all of the rkaranwalrutinkomponen for the C6SubrincianLra
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

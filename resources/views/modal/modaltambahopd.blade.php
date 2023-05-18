@@ -40,6 +40,15 @@
                         <label class="form-label" for="kode">Kode OPD</label>
                         <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode OPD" autocomplete="off">
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="kelompok_bidang">Kelompok Bidang</label>
+                        <select name="kelompok_bidang" class="form-control select2" id="kelompok_bidang">
+                            <option value="">Pilih Bidang</option>
+                            @foreach ($kelbidangs as $kelbid)
+                                <option value="{{ $kelbid->id }}">BIDANG {{ strtoupper($kelbid->uraian) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark fa-xl"></i> Batal</button>

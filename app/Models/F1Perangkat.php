@@ -103,4 +103,14 @@ class F1Perangkat extends Model
     {
         return $this->hasOne(F4KepalaOpd::class, 'f1_perangkat_id', 'id');
     }
+
+    /**
+     * Get the kel_bidang associated with the F1Perangkat
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function kel_bidang(): HasOne
+    {
+        return $this->hasOne(EKelompokBidang::class, 'id', 'kelompok_bidang');
+    }
 }

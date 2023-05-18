@@ -103,6 +103,7 @@ class RekeningLraController extends Controller
             echo '<div class="row">';
             echo '<div class="col-12">';
             echo $rincian->kode_unik_rincian . ' - ' . $rincian->uraian;
+            echo '<button class="btn btn-primary btn-sm ms-3" data-bs-target="modal"><i class="fa-solid fa-plus-circle"></i></button>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -125,7 +126,7 @@ class RekeningLraController extends Controller
             echo '<div class="col-11">';
             echo '<div class="row">';
             echo '<div class="col-12">';
-            echo $subrincian->kode_unik_subrincian . ' - ' . $subrincian->uraian;
+            echo '<a href="#copy" onclick="copyToClipboard(\'ambil_' . $subrincian->kode_unik_subrincian . '\')"><i class="far fa-copy fa-lg"></i></a> ' . '<span id="ambil_' . $subrincian->kode_unik_subrincian . '">' . $subrincian->kode_unik_subrincian . '</span>' . ' - ' . $subrincian->uraian;
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -134,5 +135,23 @@ class RekeningLraController extends Controller
             echo '</ul>';
             echo '</li>';
         }
+    }
+
+    public function rekapan($akun)
+    {
+        $rekenings = C1AkunLra::with([
+            'kelompok',
+            'kelompok.jenis',
+            'kelompok.jenis.objek',
+            'kelompok.jenis.objek.rincian',
+            'kelompok.jenis.objek.rincian.subrincian',
+        ])
+            ->where('kode_unik_akun', $akun)
+            ->get();
+        return view('rekening.rekapan', [
+            'title' => 'Rekening',
+            'desc' => 'Data Rekening',
+            'rekenings' => $rekenings,
+        ]);
     }
 }

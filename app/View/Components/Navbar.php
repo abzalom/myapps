@@ -37,6 +37,7 @@ class Navbar extends Component
                 '/rekening/lo' => 'Rekening LO',
                 '/datapendukung' => 'Data Pendukung',
                 '/nomens/urusan' => 'Nomenklatur',
+                '/rekening/belanja' => 'Rekening Belanja',
             ],
             'Pengaturan' => [
                 '/pengaturan/rkpd' => 'RKPD',
@@ -58,7 +59,10 @@ class Navbar extends Component
                 '/standarharga/hspk' => '2. HSPK',
                 '/standarharga/asb' => '3. ASB',
                 '/standarharga/sbu' => '4. SBU',
-                // route('ssh.sshexport') => 'Export Excel',
+                '/standarharga/cetak' => 'Cetak',
+            ],
+            'Rekening LRA' => [
+                '/rekening/lra/rekap/4' => 'Pendapatan',
             ],
             'Laporan' => [
                 '#renja' => 'Renja',

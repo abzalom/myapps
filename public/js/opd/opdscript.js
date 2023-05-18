@@ -5,6 +5,31 @@ $(document).ready(function () {
         }
     });
 
+    // var href = window.location.href;
+    // var splitit = (href.split('#'))[1]; //split url to get twee name
+    // console.log(splitit);
+    // if (splitit !== "" & splitit !== undefined) {
+    //     $('#' + splitit).css('background-color', 'rgb(239, 255, 235)');
+    //     $('html, body').animate({
+    //         scrollTop: $('#' + splitit).offset().top,
+    //     }, 100);
+    // }
+
+    $('#table_opd').DataTable({
+
+    });
+
+    $('.get-opd-id').on('click', function () {
+        checked = $(this).prop('checked');
+        idopd = $(this).val()
+        if (checked == true) {
+            $('#test_add_id_opd').append('<input type="hidden" name="idopd[]" id="value_opd_by_id_' + idopd + '" value="' + idopd + '">')
+            // alert(idopd)
+        } else {
+            $('#test_add_id_opd #value_opd_by_id_' + idopd).remove();
+        }
+    })
+
     $('.select2').each(function () {
         $(this).select2({
             theme: "bootstrap-5",
@@ -53,8 +78,44 @@ $(document).ready(function () {
         $('#editOpdModal #bidang1Edit').html('<option value="">Pilih bidang</option>')
         $('#editOpdModal #bidang2Edit').html('<option value="">Pilih bidang</option>')
         $('#editOpdModal #bidang3Edit').html('<option value="">Pilih bidang</option>')
+
+        $('#editOpdModal #kelompok_bidangEdit').html('');
+        $('#editOpdModal #kelompok_bidangEdit').html(
+            '<option value="" selected>Pilih Kelompok Bidang</option>' +
+            '<option value="1">BIDANG SOSBUD</option>' +
+            '<option value="2">BIDANG EKONOMI</option>' +
+            '<option value="3">BIDANG FISPRA</option>'
+        );
+
         $.get("/perangkat/api/edit/" + idopd,
             function (data, textStatus, jqXHR) {
+                if (data.opd.kelompok_bidang == '1') {
+                    $('#editOpdModal #kelompok_bidangEdit').html(
+                        '<option value="">Pilih Kelompok Bidang</option>' +
+                        '<option value="1" selected>BIDANG SOSBUD</option>' +
+                        '<option value="2">BIDANG EKONOMI</option>' +
+                        '<option value="3">BIDANG FISPRA</option>'
+                    );
+                }
+
+                if (data.opd.kelompok_bidang == '2') {
+                    $('#editOpdModal #kelompok_bidangEdit').html(
+                        '<option value="">Pilih Kelompok Bidang</option>' +
+                        '<option value="1">BIDANG SOSBUD</option>' +
+                        '<option value="2" selected>BIDANG EKONOMI</option>' +
+                        '<option value="3">BIDANG FISPRA</option>'
+                    );
+                }
+
+                if (data.opd.kelompok_bidang == '3') {
+                    $('#editOpdModal #kelompok_bidangEdit').html(
+                        '<option value="">Pilih Kelompok Bidang</option>' +
+                        '<option value="1">BIDANG SOSBUD</option>' +
+                        '<option value="2">BIDANG EKONOMI</option>' +
+                        '<option value="3" selected>BIDANG FISPRA</option>'
+                    );
+                }
+
                 if (data.tags.length == 1) {
                     tagbid1 = data.tags[0].a2_bidang_id;
                     tagbid2 = '';
@@ -87,7 +148,6 @@ $(document).ready(function () {
                         $('#editOpdModal #bidang3Edit').append('<option value="' + bidval.id + '">' + bidval.kode_unik_bidang + ' - ' + bidval.uraian + '</option>');
                     }
                 });
-                console.log(data);
                 $('#editOpdModal #opdEdit').val(data.opd.nama_perangkat);
                 $('#editOpdModal #kodeEdit').val(data.opd.kode_urut);
                 $('#editOpdModal #idopdEdit').val(data.opd.id);

@@ -17,6 +17,9 @@
             </div>
             <div class="col-6 text-end">
                 <a href="{{ route('ssh.sshexport', 1) }}" class="btn btn-success text-white"><i class="fa-solid fa-file-excel fa-lg"></i> Export</a>
+                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Upload
+                </button> --}}
                 <button class="btn btn-secondary" type="button" id="uploadSsh" data-bs-toggle="modal" data-bs-target="#uploadSshModal"><i class="fa-solid fa-upload"></i> Upload SSH</button>
             </div>
         </div>
@@ -80,9 +83,9 @@
             </table>
         </div>
 
-    @include('script.sshscript')
-    @include('standarharga.ssh.modalssh.modaladdssh')
-    @include('standarharga.ssh.modalssh.modaleditssh')
-    @include('standarharga.ssh.modalssh.modaluploadssh')
-    @include('standarharga.ssh.modalssh.modaldeletessh')
+@include('standarharga.ssh.modalssh.modaluploadssh')
+        @include('standarharga.ssh.modalssh.modaladdssh')
+        @include('standarharga.ssh.modalssh.modaleditssh')
+        @include('standarharga.ssh.modalssh.modaldeletessh')
+        @include('script.sshscript')
 </x-app-layout>

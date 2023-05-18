@@ -1,10 +1,10 @@
 <script src="/js/jquery.min.js"></script>
 <script>
-    $(window).on('load', function () {
-    $('#loadingpage').delay(400).fadeOut(400, function () {
-        $('#pagecontent').fadeIn(400);
-    });
-})
+    $(window).on('load', function() {
+        $('#loadingpage').delay(400).fadeOut(400, function() {
+            $('#pagecontent').fadeIn(400);
+        });
+    })
 </script>
 
 <script type="text/javascript" src="/vendors/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>

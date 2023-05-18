@@ -68,7 +68,7 @@ class SshSikd2022Import implements ToModel, WithHeadingRow
         $ssh1tag2022 = Ssh1Tag2022::firstOrCreate(
             [
                 'kode_unik_subrincian' => $rekening->kode_unik_subrincian,
-                'tahun' => '2022',
+                'tahun' => '2024',
             ],
             [
                 'kode_unik_akun' => $rekening->kode_unik_akun,

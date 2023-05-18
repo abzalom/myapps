@@ -143,7 +143,7 @@ class SshController extends Controller
 
     public function sshupload(Request $request)
     {
-        K3SshKomponen::truncate();
+        // K3SshKomponen::truncate();
         $file = $request->file('file');
         Excel::import(new SshImport($this->tahun->tahun), $file);
         return redirect()->back()->with('pesan', '<div class="alert alert-success">Data komponen ssh berhasil diupload!</div>');
