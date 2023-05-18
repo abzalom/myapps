@@ -16,9 +16,9 @@ class D2KelompokLoSeeder extends Seeder
      */
     public function run()
     {
-        D2KelompokLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/2LoKelompok.json');
+        $json = File::get('storage/app/public/json/database/myapps/d2_kelompok_los.json');
         $data = json_decode($json);
+        D2KelompokLo::truncate();
         foreach ($data as $key => $value) {
             D2KelompokLo::create(
                 [

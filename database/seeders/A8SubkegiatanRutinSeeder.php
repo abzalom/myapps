@@ -17,9 +17,11 @@ class A8SubkegiatanRutinSeeder extends Seeder
      */
     public function run()
     {
-        A8SubkegiatanRutin::truncate();
-        $json = File::get('storage/app/public/backup/A8SubkegiatanRutin.json');
+        // $json = File::get('storage/app/public/backup/A8SubkegiatanRutin.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/a8_subkegiatan_rutins.json');
         $data = json_decode($json);
+        A8SubkegiatanRutin::truncate();
         foreach ($data as $key => $value) {
             A8SubkegiatanRutin::create([
                 'a6_program_rutin_id' => $value->a6_program_rutin_id,

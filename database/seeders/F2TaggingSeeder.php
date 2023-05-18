@@ -17,9 +17,9 @@ class F2TaggingSeeder extends Seeder
      */
     public function run()
     {
-        F2Tagging::truncate();
-        $json = File::get('storage/app/public/backup/F2Tagging.json');
+        $json = File::get('storage/app/public/json/database/myapps/f2_taggings.json');
         $data = json_decode($json);
+        F2Tagging::truncate();
         foreach ($data as $key => $value) {
             F2Tagging::create(
                 [

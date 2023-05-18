@@ -16,9 +16,11 @@ class B5RincianNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B5RincianNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/5NeracaRincian.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/5NeracaRincian.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/b5_rincian_neracas.json');
         $data = json_decode($json);
+        B5RincianNeraca::truncate();
         foreach ($data as $key => $value) {
             B5RincianNeraca::create(
                 [

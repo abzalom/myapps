@@ -16,9 +16,11 @@ class B2KelompokNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B2KelompokNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/2NeracaKelompok.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/2NeracaKelompok.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/b2_kelompok_neracas.json');
         $data = json_decode($json);
+        B2KelompokNeraca::truncate();
         foreach ($data as $key => $value) {
             B2KelompokNeraca::create(
                 [

@@ -16,7 +16,7 @@ class G1PendapatanUraianSeeder extends Seeder
      */
     public function run()
     {
-        $json = File::get('storage/app/public/backup/G1PendapatanUraian.json');
+        $json = File::get('storage/app/public/json/database/myapps/g1_pendapatan_uraians.json');
         $data = json_decode($json);
         G1PendapatanUraian::truncate();
         foreach ($data as $key => $value) {

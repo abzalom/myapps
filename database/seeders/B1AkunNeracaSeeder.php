@@ -16,9 +16,11 @@ class B1AkunNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B1AkunNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/1NeracaAkun.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/1NeracaAkun.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/b1_akun_neracas.json');
         $data = json_decode($json);
+        B1AkunNeraca::truncate();
         foreach ($data as $key => $value) {
             B1AkunNeraca::create(
                 [

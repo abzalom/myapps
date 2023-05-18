@@ -16,9 +16,11 @@ class B4ObjekNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B4ObjekNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/4NeracaObjek.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/4NeracaObjek.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/b4_objek_neracas.json');
         $data = json_decode($json);
+        B4ObjekNeraca::truncate();
         foreach ($data as $key => $value) {
             B4ObjekNeraca::create(
                 [

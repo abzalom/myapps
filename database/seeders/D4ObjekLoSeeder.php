@@ -16,9 +16,9 @@ class D4ObjekLoSeeder extends Seeder
      */
     public function run()
     {
-        D4ObjekLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/4LoObjek.json');
+        $json = File::get('storage/app/public/json/database/myapps/d4_objek_los.json');
         $data = json_decode($json);
+        D4ObjekLo::truncate();
         foreach ($data as $key => $value) {
             D4ObjekLo::create(
                 [

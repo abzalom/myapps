@@ -16,9 +16,9 @@ class D6SubrincianLoSeeder extends Seeder
      */
     public function run()
     {
-        D6SubrincianLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/6LoSubrincian.json');
+        $json = File::get('storage/app/public/json/database/myapps/d6_subrincian.json');
         $data = json_decode($json);
+        D6SubrincianLo::truncate();
         foreach ($data as $key => $value) {
             D6SubrincianLo::create(
                 [

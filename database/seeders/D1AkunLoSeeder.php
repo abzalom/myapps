@@ -16,9 +16,10 @@ class D1AkunLoSeeder extends Seeder
      */
     public function run()
     {
-        D1AkunLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/1LoAkun.json');
+        // $json = File::get('storage/app/public/json/rekening/lo/1LoAkun.json');
+        $json = File::get('storage/app/public/json/database/myapps/d1_akun_los.json');
         $data = json_decode($json);
+        D1AkunLo::truncate();
         foreach ($data as $key => $value) {
             D1AkunLo::create(
                 [

@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('f3_units', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(F1Perangkat::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(F1Perangkat::class);
             $table->integer('kode_unit')->unique()->index();
             $table->text('nama_unit');
             $table->softDeletes();

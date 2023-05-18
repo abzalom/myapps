@@ -17,9 +17,11 @@ class A7KegiatanRutinSeeder extends Seeder
      */
     public function run()
     {
-        A7KegiatanRutin::truncate();
-        $json = File::get('storage/app/public/backup/A7KegiatanRutin.json');
+        // $json = File::get('storage/app/public/backup/A7KegiatanRutin.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/a7_kegiatan_rutins.json');
         $data = json_decode($json);
+        A7KegiatanRutin::truncate();
         foreach ($data as $key => $value) {
             A7KegiatanRutin::create([
                 'a6_program_rutin_id' => $value->a6_program_rutin_id,

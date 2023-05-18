@@ -21,9 +21,11 @@ class A5SubkegiatanSeeder extends Seeder
         // collect($data->data())->each(function ($query) {
         //     A5Subkegiatan::create($query);
         // });
-        A5Subkegiatan::truncate();
-        $json = File::get('storage/app/public/backup/A5Subkegiatan.json');
+        // $json = File::get('storage/app/public/backup/A5Subkegiatan.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/a5_subkegiatans.json');
         $data = json_decode($json);
+        A5Subkegiatan::truncate();
         foreach ($data as $key => $value) {
             A5Subkegiatan::create([
                 'a1_urusan_id' => $value->a1_urusan_id,

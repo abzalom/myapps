@@ -16,9 +16,9 @@ class D5RincianLoSeeder extends Seeder
      */
     public function run()
     {
-        D5RincianLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/5LoRincian.json');
+        $json = File::get('storage/app/public/json/database/myapps/d5_rincian_los.json');
         $data = json_decode($json);
+        D5RincianLo::truncate();
         foreach ($data as $key => $value) {
             D5RincianLo::create(
                 [

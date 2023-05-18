@@ -17,13 +17,32 @@ class A1UrusanSeeder extends Seeder
      */
     public function run()
     {
-        // $data = new UrusanData;
-        // collect($data->data())->each(function ($query) {
-        //     A1Urusan::create($query);
-        // });
-        A1Urusan::truncate();
-        $json = File::get('storage/app/public/json/nomen050_5889_2021/perbaikan/urusan.json');
+        // A1Urusan::truncate();
+        // $json = File::get('storage/app/public/json/nomen050_5889_2021/perbaikan/urusan.json');
+        // $data = json_decode($json);
+        // foreach ($data as $key => $value) {
+        //     A1Urusan::create([
+        //         'kode_urusan' => $value->kode_urusan,
+        //         'kode_unik_urusan' => $value->kode_unik_urusan,
+        //         'uraian' => $value->uraian,
+        //         'kinerja' => $value->kinerja,
+        //         'indikator' => $value->indikator,
+        //         'satuan' => $value->satuan,
+        //         'keterangan' => $value->keterangan,
+        //         'kewenangan' => $value->kewenangan,
+        //     ]);
+        // }
+
+
+        /**
+         * 
+         * Praktek
+         * 
+         */
+
+        $json = File::get('storage/app/public/json/database/myapps/a1_urusans.json');
         $data = json_decode($json);
+        A1Urusan::truncate();
         foreach ($data as $key => $value) {
             A1Urusan::create([
                 'kode_urusan' => $value->kode_urusan,

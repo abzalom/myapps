@@ -16,9 +16,9 @@ class D3JenisLoSeeder extends Seeder
      */
     public function run()
     {
-        D3JenisLo::truncate();
-        $json = File::get('storage/app/public/json/rekening/lo/3LoJenis.json');
+        $json = File::get('storage/app/public/json/database/myapps/d3_jenis_los.json');
         $data = json_decode($json);
+        D3JenisLo::truncate();
         foreach ($data as $key => $value) {
             D3JenisLo::create(
                 [

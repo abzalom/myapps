@@ -16,9 +16,9 @@ class F1PerangkatSeeder extends Seeder
      */
     public function run()
     {
-        // F1Perangkat::truncate();
-        $json = File::get('storage/app/public/backup/F1Perangkat.json');
+        $json = File::get('storage/app/public/json/database/myapps/f1_perangkats.json');
         $data = json_decode($json);
+        F1Perangkat::truncate();
         foreach ($data as $key => $value) {
             F1Perangkat::create(
                 [

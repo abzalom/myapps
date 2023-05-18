@@ -16,9 +16,11 @@ class B3JenisNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B3JenisNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/3NeracaJenis.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/3NeracaJenis.json');
+        // $data = json_decode($json);
+        $json = File::get('storage/app/public/json/database/myapps/b3_jenis_neracas.json');
         $data = json_decode($json);
+        B3JenisNeraca::truncate();
         foreach ($data as $key => $value) {
             B3JenisNeraca::create(
                 [

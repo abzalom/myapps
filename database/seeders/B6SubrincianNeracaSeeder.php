@@ -16,9 +16,10 @@ class B6SubrincianNeracaSeeder extends Seeder
      */
     public function run()
     {
-        B6SubrincianNeraca::truncate();
-        $json = File::get('storage/app/public/json/rekening/neraca/with_id/6NeracaSubrincian.json');
+        // $json = File::get('storage/app/public/json/rekening/neraca/with_id/6NeracaSubrincian.json');
+        $json = File::get('storage/app/public/json/database/myapps/b6_subrincian_neracas.json');
         $data = json_decode($json);
+        B6SubrincianNeraca::truncate();
         foreach ($data as $key => $value) {
             B6SubrincianNeraca::create(
                 [
