@@ -50,14 +50,21 @@ class PengaturanController extends Controller
 
     public function storetable()
     {
-        $data = new Tables;
-        $tables = $data->data();
-        for ($i = 0; $i < count($tables); $i++) {
-            // for ($i = 0; $i < 1; $i++) {
-            $json = $tables[$i]['class']::all()->toJson();
-            Storage::disk('public')->put($tables[$i]['table'] . '.json', $json);
+        $path = app_path() . "/Models";
+        $tables = [];
+        $results = scandir($path);
+        foreach ($results as $result) {
+            if ($result === '.' or $result === '..') continue;
+            $out = explode('.', $result);
+            array_push($tables, $out[0]);
         }
-        return redirect('/');
+        foreach ($tables as  $table) {
+            $class = "App\\Models\\" . $table;
+            $class = new $class;
+            $json = $class::all()->toJson();
+            Storage::disk('public')->put('/save/json/' . $table . '.json', $json);
+        }
+        return redirect('/')->with('pesan', 'Semua Table berhasil di simpan');
     }
 
     public function olahdata()
