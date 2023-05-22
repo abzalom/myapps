@@ -13,4 +13,9 @@ class DashboardController extends Controller
             'desc' => 'Aplikasi e-planning untuk kalangan sendiri',
         ]);
     }
+
+    public function maintenance(Request $request)
+    {
+        return $request->all();
+    }
 }

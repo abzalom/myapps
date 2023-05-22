@@ -48,6 +48,23 @@ class PengaturanController extends Controller
         return redirect()->back();
     }
 
+    public function storerkpdtahun(Request $request)
+    {
+        $data = $request->validate(
+            [
+                'tahun' => 'required|numeric|digits:4|unique:e_tahun_anggarans,tahun'
+            ],
+            [
+                'tahun.required' => 'Tahun tidak boleh kosong!',
+                'tahun.numeric' => 'Tahun hanya boleh angka!',
+                'tahun.digits' => 'Tahun harus 4 digit!',
+                'tahun.unique' => 'Tahun sudah ada!',
+            ]
+        );
+        $data = ETahunAnggaran::create($data);
+        return redirect()->back()->with('pesan', 'Tahun anggaran ' . $data->tahun . ' telah ditambahkan');
+    }
+
     public function storetable()
     {
         $path = app_path() . "/Models";
@@ -77,25 +94,25 @@ class PengaturanController extends Controller
         /**
          * Update & Insert column
          */
-        $data = G1PendapatanUraian::all();
-        $each = $data->each(function ($query) {
-            // $query->tahun = '2022';
-            // $query->save();
-            // dump($query->toArray());
-            $data = [
-                'c1_akun_lra_id' => $query->c1_akun_lra_id,
-                'c2_kelompok_lra_id' => $query->c2_kelompok_lra_id,
-                'c3_jenis_lra_id' => $query->c3_jenis_lra_id,
-                'c4_objek_lra_id' => $query->c4_objek_lra_id,
-                'c5_rincian_lra_id' => $query->c5_rincian_lra_id,
-                'c6_subrincian_lra_id' => $query->c6_subrincian_lra_id,
-                'g1_pendapatan_id' => $query->g1_pendapatan_id,
-                'kode' => $query->kode,
-                'kode_unik' => $query->kode_unik,
-            ];
-            // G1Pendapatan::create($data);
-            // dump($data);
-        });
+        // $data = G1PendapatanUraian::all();
+        // $each = $data->each(function ($query) {
+        //     // $query->tahun = '2022';
+        //     // $query->save();
+        //     // dump($query->toArray());
+        //     $data = [
+        //         'c1_akun_lra_id' => $query->c1_akun_lra_id,
+        //         'c2_kelompok_lra_id' => $query->c2_kelompok_lra_id,
+        //         'c3_jenis_lra_id' => $query->c3_jenis_lra_id,
+        //         'c4_objek_lra_id' => $query->c4_objek_lra_id,
+        //         'c5_rincian_lra_id' => $query->c5_rincian_lra_id,
+        //         'c6_subrincian_lra_id' => $query->c6_subrincian_lra_id,
+        //         'g1_pendapatan_id' => $query->g1_pendapatan_id,
+        //         'kode' => $query->kode,
+        //         'kode_unik' => $query->kode_unik,
+        //     ];
+        //     // G1Pendapatan::create($data);
+        //     // dump($data);
+        // });
         return redirect('/');
     }
 }

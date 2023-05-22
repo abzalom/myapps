@@ -31,6 +31,16 @@ class B6SubrincianNeraca extends Model
     }
 
     /**
+     * Get all of the standarharga for the B6SubrincianNeraca
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function standarharga(): HasMany
+    {
+        return $this->hasMany(StandarHarga::class, 'kategori_subrincian', 'kode_unik_subrincian');
+    }
+
+    /**
      * Get the kategori associated with the B6SubrincianNeraca
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

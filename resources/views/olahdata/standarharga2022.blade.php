@@ -4,9 +4,9 @@
     </div>
 
     @if (session()->has('pesan'))
-    <div class="row mt-4 mb-4">
-        {!! session()->get('pesan') !!}
-    </div>
+        <div class="row mt-4 mb-4">
+            {!! session()->get('pesan') !!}
+        </div>
     @endif
 
     <div class="row mb-4 mt-4">
@@ -60,11 +60,11 @@
                                 <td>{{ $sshsikd->uraian }}</td>
                                 <td>{{ $sshsikd->spesifikasi }}</td>
                                 <td>{{ $sshsikd->satuan }}</td>
-                                <td>{{ number_format($sshsikd->harga, 2, ',','.') }}</td>
-                                <td>{{ number_format($sshsikd->harga / 100 * $sshsikd->inflasi + $sshsikd->harga, 2, ',','.') }}</td>
+                                <td>{{ number_format($sshsikd->harga, 2, ',', '.') }}</td>
+                                <td>{{ number_format(($sshsikd->harga / 100) * $sshsikd->inflasi + $sshsikd->harga, 2, ',', '.') }}</td>
                                 @foreach ($zonasis as $zona)
                                     <td>
-                                        {{ number_format($sshsikd->harga / 100 * $zona->persentasi + $sshsikd->harga / 100 * $sshsikd->inflasi + $sshsikd->harga, 2, ',','.') }}
+                                        {{ number_format(($sshsikd->harga / 100) * $zona->persentasi + ($sshsikd->harga / 100) * $sshsikd->inflasi + $sshsikd->harga, 2, ',', '.') }}
                                     </td>
                                 @endforeach
                                 <td>{{ $sshsikd->kategori_name }}</td>

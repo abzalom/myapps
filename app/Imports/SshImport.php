@@ -16,6 +16,8 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class SshImport implements ToModel, WithHeadingRow
 {
+    public $tahun;
+
     public function __construct($tahun)
     {
         $this->tahun = $tahun;

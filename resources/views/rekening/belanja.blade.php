@@ -76,7 +76,8 @@
                                     @foreach ($rek->kategori as $kategori)
                                         <tr id="{{ $rek->kode_unik_subrincian }}">
                                             <td style="width:15%; text-align:center">
-                                                {{ $rek->kode_unik_subrincian }} - {{ $rek->uraian }}
+                                                <a href="#copy-kode" title="copy kode" onclick="copyToClipboard('kode_{{ $rek->id }}')"><i class="fas fa-copy fa-lg"></i></a> <span id="kode_{{ $rek->id }}">{{ $rek->kode_unik_subrincian }}</span> - <a href="#copy-uraian" title="copy uraian" onclick="copyToClipboard('uraian_{{ $rek->id }}')"> <i class="fas fa-copy fa-lg"></i></a>
+                                                <span id="uraian_{{ $rek->id }}">{{ $rek->uraian }}</span>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <button type="button" class="btn btn-primary btn-sm btn-add-kode" value="{{ $rek->kode_unik_subrincian }}" data-uraian="{{ $rek->kode_unik_subrincian . ' - ' . $rek->uraian }}" data-bs-toggle="modal" data-bs-target="#katRekModal"><i class="fa fa-edit"></i></button>
                                                 </div>

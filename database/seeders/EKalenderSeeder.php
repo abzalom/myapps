@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\EKalender;
-use Database\Seeders\Data\Pendukung\DataKalender;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class EKalenderSeeder extends Seeder
 {
@@ -16,10 +16,13 @@ class EKalenderSeeder extends Seeder
      */
     public function run()
     {
+        $json = File::get('storage/app/public/json/database/myapps/e_kalenders.json');
+        $data = json_decode($json);
         EKalender::truncate();
-        $data = new DataKalender;
-        collect($data->data())->each(function ($query) {
-            EKalender::create($query);
-        });
+        foreach ($data as $value) {
+            EKalender::create([
+                'bulan' => $value->bulan,
+            ]);
+        }
     }
 }

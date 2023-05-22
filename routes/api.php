@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiLoController;
 use App\Http\Controllers\api\rekening\ApiLraController;
 use App\Http\Controllers\api\ssh\ApiSshRutinController;
 use App\Http\Controllers\api\rekening\ApiNeracaController;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------

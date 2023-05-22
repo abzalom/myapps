@@ -16,18 +16,18 @@ class TagKategoriBelanjaController extends Controller
     {
         $rekenings = C6SubrincianLra::with(
             [
-                'kategori' => fn ($q) => $q->select(['kode_kategori', 'kategori_uraian', 'kode_belanja', 'kategori_ssh', 'kode_kategori_ssh'])
+                'kategori' => fn ($q) => $q->select(['id', 'kode_kategori', 'kategori_uraian', 'kode_belanja', 'kategori_ssh', 'kode_kategori_ssh'])
             ]
         )->where(['kode_unik_akun' => '5'])
-            ->select(['kode_unik_subrincian', 'uraian'])
+            ->select(['id', 'kode_unik_subrincian', 'uraian'])
             ->get();
         if ($request->has('subrincian')) {
             $rekenings = C6SubrincianLra::with(
                 [
-                    'kategori' => fn ($q) => $q->select(['kode_kategori', 'kategori_uraian', 'kode_belanja', 'kategori_ssh', 'kode_kategori_ssh'])
+                    'kategori' => fn ($q) => $q->select(['id', 'kode_kategori', 'kategori_uraian', 'kode_belanja', 'kategori_ssh', 'kode_kategori_ssh'])
                 ]
             )->where(['kode_unik_akun' => '5', 'kode_unik_rincian' => $request->subrincian])
-                ->select(['kode_unik_subrincian', 'uraian'])
+                ->select(['id', 'kode_unik_subrincian', 'uraian'])
                 ->get();
         }
         // return $rekenings;

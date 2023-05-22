@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\EKlasifikasi;
-use Database\Seeders\Data\Pendukung\DataKlasifikasi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class EKlasifikasiSeeder extends Seeder
 {
@@ -16,10 +16,13 @@ class EKlasifikasiSeeder extends Seeder
      */
     public function run()
     {
+        $json = File::get('storage/app/public/json/database/myapps/e_klasifikasis.json');
+        $data = json_decode($json);
         EKlasifikasi::truncate();
-        $data = new DataKlasifikasi;
-        collect($data->data())->each(function ($query) {
-            EKlasifikasi::create($query);
-        });
+        foreach ($data as $value) {
+            EKlasifikasi::create([
+                'uraian' => $value->uraian,
+            ]);
+        }
     }
 }

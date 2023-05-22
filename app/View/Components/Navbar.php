@@ -24,13 +24,13 @@ class Navbar extends Component
     public function render()
     {
         $navs = [
-            // 'Renja' => [
-            //     '/renja/rancangan/awal' => 'Rancangan Awal'
-            // ],
-            // 'Master' => [
-            //     '/perangkat' => 'OPD',
-            //     '/pendapatan' => 'Pendapatan',
-            // ],
+            'Renja' => [
+                '/renja/rancangan/awal' => 'Rancangan Awal'
+            ],
+            'Master' => [
+                '/perangkat' => 'OPD',
+                '/pendapatan' => 'Pendapatan',
+            ],
             'Referensi' => [
                 '/rekening/neraca' => 'Rekening Neraca',
                 '/rekening/lra' => 'Rekening LRA',
@@ -41,33 +41,34 @@ class Navbar extends Component
             ],
             'Pengaturan' => [
                 '/pengaturan/rkpd' => 'RKPD',
-                // '/pengaturan/pagu' => 'Pagu OPD',
-                // '/datapendukung' => 'Data Pendukung',
+                '/pengaturan/pagu' => 'Pagu OPD',
+                '/datapendukung' => 'Data Pendukung',
                 '/pengaturan/store/table' => 'Store Table',
                 '/olahdata' => 'Olah Data',
             ],
-            // 'Catatan' => [
-            //     '/history/pagu' => 'History pagu OPD',
-            // ],
-            // 'Rutin' => [
-            //     '/rutin' => 'Rutin',
-            //     '/rutin/kegiatan' => 'Kegiatan',
-            //     '/rutin/subkegiatan' => 'Sub Kegiatan',
-            // ],
+            'Catatan' => [
+                '/history/pagu' => 'History pagu OPD',
+            ],
+            'Rutin' => [
+                '/rutin' => 'Rutin',
+                '/rutin/kegiatan' => 'Kegiatan',
+                '/rutin/subkegiatan' => 'Sub Kegiatan',
+            ],
             'Standar Harga' => [
+                '/standarharga/all' => 'Home',
                 '/standarharga/ssh' => '1. SSH',
                 '/standarharga/hspk' => '2. HSPK',
                 '/standarharga/asb' => '3. ASB',
                 '/standarharga/sbu' => '4. SBU',
                 '/standarharga/cetak' => 'Cetak',
             ],
-            // 'Rekening LRA' => [
-            //     '/rekening/lra/rekap/4' => 'Pendapatan',
-            // ],
-            // 'Laporan' => [
-            //     '#renja' => 'Renja',
-            //     '#rka' => 'RKA',
-            // ],
+            'Rekening LRA' => [
+                '/rekening/lra/rekap/4' => 'Pendapatan',
+            ],
+            'Laporan' => [
+                '#renja' => 'Renja',
+                '#rka' => 'RKA',
+            ],
             'Olah Data' => [
                 '/olahdata/nomenklatur' => 'Nomenklatur',
                 '/olahdata/standarharga/2022' => 'Standar Harga 2022'

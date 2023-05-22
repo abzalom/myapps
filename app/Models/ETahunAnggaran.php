@@ -10,4 +10,8 @@ class ETahunAnggaran extends Model
     use HasFactory;
 
     protected $fillable = ['tahun', 'is_active'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }

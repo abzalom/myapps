@@ -26,6 +26,16 @@ class D6SubrincianLo extends Model
     }
 
     /**
+     * Get all of the standarharga for the D6SubrincianLo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function standarharga(): HasMany
+    {
+        return $this->hasMany(StandarHarga::class, 'kategori_subrincian', 'kode_unik_subrincian');
+    }
+
+    /**
      * Get the kategori associated with the D6SubrincianLo
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

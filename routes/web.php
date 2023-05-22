@@ -3,11 +3,6 @@
 set_time_limit(0);
 
 use App\Http\Controllers\AjaxHtmlReturn;
-use App\Http\Controllers\api\rekening\ApiLraController;
-use App\Http\Controllers\api\rekening\ApiNeracaController;
-use App\Http\Controllers\api\ssh\ApiSshRutinController;
-use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ApiLoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataPendukungController;
 use App\Http\Controllers\HistoryController;
@@ -30,6 +25,7 @@ use App\Http\Controllers\Standarharga\AsbController;
 use App\Http\Controllers\Standarharga\HspkController;
 use App\Http\Controllers\Standarharga\SbuController;
 use App\Http\Controllers\Standarharga\SshController;
+use App\Http\Controllers\StandarHargaController;
 use App\Http\Controllers\TagKategoriBelanjaController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +39,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/maintenance', 'maintenance')->name('apps.maintenance');
+});
 
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/', 'index')->name('apps.index');
@@ -163,6 +163,9 @@ Route::controller(PengaturanController::class)->group(function () {
     Route::get('/pengaturan/tahun/{id}', 'tahun')->name('pengaturan.tahun');
     Route::get('/pengaturan/store/table', 'storetable')->name('pengaturan.storetable');
     Route::get('/olahdata', 'olahdata')->name('pengaturan.olahdata');
+
+    // Store
+    Route::post('/pengaturan/rkpd/store/tahun', 'storerkpdtahun')->name('pengaturan.rkpd.store.tahun');
 });
 
 // Pengaturan Pagu OPD
@@ -288,6 +291,16 @@ Route::controller(TagKategoriBelanjaController::class)->group(function () {
     Route::get('/rekening/belanja', 'tagrekeningbelanja')->name('neraca.rekeningbelanja');
     Route::post('/rekening/belanja', 'storetagrekeningbelanja');
     Route::post('/rekening/belanja/autotag', 'autotagrekeningbelanja')->name('neraca.autotagging.rekeningbelanja');
+});
+
+// Rekening Belanja Tag Kategori
+Route::controller(StandarHargaController::class)->group(function () {
+    // GET
+    Route::get('/standarharga/all', 'standarhargahome')->name('standarharga.home');
+    Route::get('/standarharga/cetak/{tahun}', 'standarhargacetak')->name('standarharga.cetak');
+
+    //POST
+    Route::post('/standarharga/all', 'storestandarharga');
 });
 
 require __DIR__ . '/api.php';

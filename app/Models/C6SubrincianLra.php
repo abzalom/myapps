@@ -27,6 +27,16 @@ class C6SubrincianLra extends Model
     }
 
     /**
+     * Get all of the standarharga for the C6SubrincianLra
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function standarharga(): HasMany
+    {
+        return $this->hasMany(StandarHarga::class, 'rekening_subrincian', 'kode_unik_subrincian');
+    }
+
+    /**
      * Get all of the kategori for the C6SubrincianLra
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

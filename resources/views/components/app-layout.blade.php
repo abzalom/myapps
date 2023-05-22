@@ -113,7 +113,7 @@
                 lengthMenu: [100, 10, 20, 50]
             });
             $('.datatablesTagBelanja').DataTable({
-                lengthMenu: [100, 10, 20, 50],
+                lengthMenu: [100],
                 order: [
                     [1, 'asc'],
 
