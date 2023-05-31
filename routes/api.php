@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ApiRekeningController;
+use App\Http\Controllers\Api\ApiStandarHargaController;
 use App\Http\Controllers\Api\Rekening\ApiKategoriController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -101,7 +103,14 @@ Route::controller(ApiController::class)->group(function () {
 });
 
 
-// API SSH
+// API STANDAR HARGA
 Route::controller(ApiKategoriController::class)->group(function () {
     Route::post('/api/get/kategori/by/kode', 'getkodekategoribyid');
+});
+Route::controller(ApiRekeningController::class)->group(function () {
+    Route::post('/api/get/rekening/by/kode', 'getkoderekeningbyid');
+});
+Route::controller(ApiStandarHargaController::class)->group(function () {
+    Route::post('/api/get/all/standarharga', 'getallstandarharga');
+    Route::post('/api/find/standarharga', 'findstandarharga');
 });

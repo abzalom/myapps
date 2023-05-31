@@ -3,6 +3,17 @@
         <h5>{{ $desc }}</h5>
     </div>
 
+    @if ($errors->any())
+        <div class="row mt-4 mb-4">
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     @if (session()->has('pesan'))
         <div class="row mt-4 mb-4">
             {!! session()->get('pesan') !!}
@@ -22,8 +33,8 @@
         </div>
     </div>
 
-    <div class="table-responsive mt-4 mb-4">
-        <table class="table table-bordered table-hover table-striped datatablesTagBelanja" style="width: 130%">
+    {{-- <div class="table-responsive mt-4 mb-4">
+        <table class="table table-bordered table-hover table-striped datatablesTagBelanja" style="width: 100%">
             <thead class="table-dark align-middle">
                 <tr>
                     <th></th>
@@ -51,17 +62,46 @@
                             <td>{{ number_format($standarharga->harga_zona_2, 2, ',', '.') }}</td>
                             <td>{{ number_format($standarharga->harga_zona_3, 2, ',', '.') }}</td>
                             <td>{{ $standarharga->nama_kelompok }}</td>
-                            <td></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-sm btn-secondary edit-komponen-ssh" value="{{ $standarharga->id }}" data-bs-toggle="modal" data-bs-target="#editSshModal" data-kategori="{{ $standarharga->kategori_subrincian }}" data-uraiankategori="{{ $standarharga->kategori_uraian }}"><i class="fa fa-edit"></i></button>
+                                    <form action="" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 @endforeach
             </tbody>
         </table>
+    </div> --}}
+
+    <div class="table-responsive mt-4 mb-4">
+        <table class="table table-bordered table-hover table-striped" id="dataTable" style="width: 100%">
+            <thead class="table-dark align-middle">
+                <tr>
+                    <th></th>
+                    <th>Kategori</th>
+                    <th>Uraian</th>
+                    <th>Spesifikasi</th>
+                    <th>Satuan</th>
+                    <th>Zona 1</th>
+                    <th>Zona 2</th>
+                    <th>Zona 3</th>
+                    <th>kel</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+            </tbody>
+        </table>
     </div>
 
     @include('standarharga.all.modal-standar-harga.modal-upload-standar-harga')
-    {{-- @include('standarharga.all.modal-standar-harga.modal-add-standar-harga')
     @include('standarharga.all.modal-standar-harga.modal-edit-standar-harga')
+    {{-- @include('standarharga.all.modal-standar-harga.modal-add-standar-harga')
     @include('standarharga.all.modal-standar-harga.modal-delete-standar-harga') --}}
     @include('script.standarhargascript')
 </x-app-layout>

@@ -22,4 +22,14 @@ class StandarHarga extends Model
     {
         return $this->belongsTo(C6SubrincianLra::class, 'rekening_subrincian', 'kode_unik_subrincian');
     }
+
+    /**
+     * Get the kategori that owns the StandarHarga
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kategori()
+    {
+        return $this->uraian;
+    }
 }

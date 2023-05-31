@@ -33,6 +33,7 @@ class StandarHargaImport implements ToModel, WithHeadingRow
             'kode_unik_objek',
             'kode_unik_rincian',
             'kode_unik_subrincian',
+            'uraian',
             'kategori_ssh',
             'kode_kategori_ssh',
         ])->first();
@@ -43,6 +44,7 @@ class StandarHargaImport implements ToModel, WithHeadingRow
             'kode_unik_objek',
             'kode_unik_rincian',
             'kode_unik_subrincian',
+            'uraian',
             'kategori_ssh',
             'kode_kategori_ssh',
         ])->first();
@@ -53,6 +55,7 @@ class StandarHargaImport implements ToModel, WithHeadingRow
             'kode_unik_objek',
             'kode_unik_rincian',
             'kode_unik_subrincian',
+            'uraian',
         ])->first();
         $kategori = $neraca ? $neraca : $lo;
 
@@ -63,6 +66,7 @@ class StandarHargaImport implements ToModel, WithHeadingRow
             'rekening_objek' => $rekening ? $rekening->kode_unik_objek : null,
             'rekening_rincian' => $rekening ? $rekening->kode_unik_rincian : null,
             'rekening_subrincian' => $rekening ? $rekening->kode_unik_subrincian : null,
+            'rekening_uraian' => $rekening ? $rekening->uraian : null,
 
             'kategori_akun' => $kategori ? $kategori->kode_unik_akun : null,
             'kategori_kelompok' => $kategori ? $kategori->kode_unik_kelompok : null,
@@ -70,6 +74,7 @@ class StandarHargaImport implements ToModel, WithHeadingRow
             'kategori_objek' => $kategori ? $kategori->kode_unik_objek : null,
             'kategori_rincian' => $kategori ? $kategori->kode_unik_rincian : null,
             'kategori_subrincian' => $kategori ? $kategori->kode_unik_subrincian : null,
+            'kategori_uraian' => $kategori ? $kategori->uraian : null,
 
             'uraian' => $row['uraian'],
             'spesifikasi' => $row['spesifikasi'],

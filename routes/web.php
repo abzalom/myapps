@@ -40,16 +40,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(DashboardController::class)->group(function () {
+Route::get('/sidebar', function () {
+    return view('templates.sidebar');
+});
+
+Route::controller(DashboardController::class)->middleware('auth')->group(function () {
     Route::get('/maintenance', 'maintenance')->name('apps.maintenance');
 });
 
-Route::controller(DashboardController::class)->group(function () {
+Route::controller(DashboardController::class)->middleware('auth')->group(function () {
     Route::get('/', 'index')->name('apps.index');
 });
 
 // Rutin
-Route::controller(OlahdataController::class)->group(function () {
+Route::controller(OlahdataController::class)->middleware('auth')->group(function () {
     Route::get('/olahdata/nomenklatur', 'nomenklatur')->name('olahdata.nomenklatur');
     Route::get('/olahdata/standarharga/2022', 'standarharga_2022')->name('olahdata.standarharga_2022');
     Route::get('/olahdata/standarharga/2022/salin', 'standarharga_2022salin')->name('olahdata.standarharga_2022salin');
@@ -60,7 +64,7 @@ Route::controller(OlahdataController::class)->group(function () {
 });
 
 // Rutin
-Route::controller(RutinController::class)->group(function () {
+Route::controller(RutinController::class)->middleware('auth')->group(function () {
     Route::get('/rutin', 'rutin')->name('rutin.rutin');
     Route::get('/rutin/kegiatan', 'kegiatan')->name('rutin.kegiatan');
     Route::post('/rutin/kegiatan/import', 'kegiatanimport')->name('rutin.kegiatanimport');
@@ -69,7 +73,7 @@ Route::controller(RutinController::class)->group(function () {
 });
 
 // Nomenklatur
-Route::controller(NomenController::class)->group(function () {
+Route::controller(NomenController::class)->middleware('auth')->group(function () {
     Route::get('/nomens/urusan', 'urusan')->name('nomens.urusan');
     Route::get('/nomens/urusan/{urusan}/bidang', 'bidang')->name('nomens.bidang');
     Route::get('/nomens/urusan/{urusan}/bidang/{bidang}/program', 'program')->name('nomens.program');
@@ -81,7 +85,7 @@ Route::controller(NomenController::class)->group(function () {
 });
 
 // Rekening Lra
-Route::controller(RekeningLraController::class)->group(function () {
+Route::controller(RekeningLraController::class)->middleware('auth')->group(function () {
     Route::get('/rekening/lra', 'index')->name('lra.index');
     Route::get('/rekening/lra/kelompok/{akun}', 'kelompok')->name('lra.kelompok');
     Route::get('/rekening/lra/jenis/{kelompok}', 'jenis')->name('lra.jenis');
@@ -92,7 +96,7 @@ Route::controller(RekeningLraController::class)->group(function () {
 });
 
 // Rekening Neraca
-Route::controller(RekeningNeracaController::class)->group(function () {
+Route::controller(RekeningNeracaController::class)->middleware('auth')->group(function () {
     Route::get('/rekening/neraca', 'index')->name('neraca.index');
     Route::get('/rekening/neraca/kelompok/{akun}', 'kelompok')->name('neraca.kelompok');
     Route::get('/rekening/neraca/jenis/{kelompok}', 'jenis')->name('neraca.jenis');
@@ -102,7 +106,7 @@ Route::controller(RekeningNeracaController::class)->group(function () {
 });
 
 // Rekening Lo
-Route::controller(RekeningLoController::class)->group(function () {
+Route::controller(RekeningLoController::class)->middleware('auth')->group(function () {
     Route::get('/rekening/lo', 'index')->name('lo.index');
     Route::get('/rekening/lo/kelompok/{akun}', 'kelompok')->name('lo.kelompok');
     Route::get('/rekening/lo/jenis/{kelompok}', 'jenis')->name('lo.jenis');
@@ -113,7 +117,7 @@ Route::controller(RekeningLoController::class)->group(function () {
 
 
 // Master Data
-Route::controller(PerangkatController::class)->group(function () {
+Route::controller(PerangkatController::class)->middleware('auth')->group(function () {
     Route::get('/perangkat', 'index')->name('opd.index');
     Route::post('/perangkat/store', 'store')->name('opd.store');
     Route::post('/perangkat/store/kepala', 'storekepalaopd')->name('opd.storekepalaopd');
@@ -123,7 +127,7 @@ Route::controller(PerangkatController::class)->group(function () {
 });
 
 // Pendapatan
-Route::controller(PendapatanController::class)->middleware('tahapan')->group(function () {
+Route::controller(PendapatanController::class)->middleware('tahapan')->middleware('auth')->group(function () {
     Route::get('/pendapatan', 'index')->name('pendapatan.index');
     Route::post('/pendapatan/store', 'store')->name('pendapatan.store');
     Route::post('/pendapatan/uraian/store', 'storeuraian')->name('pendapatan.storeuraian');
@@ -133,7 +137,7 @@ Route::controller(PendapatanController::class)->middleware('tahapan')->group(fun
     Route::get('/pendapatan/validasi/ranwal', 'validasiranwal')->name('pendapatan.validasiranwal');
 });
 
-Route::controller(RekeningController::class)->group(function () {
+Route::controller(RekeningController::class)->middleware('auth')->group(function () {
     Route::get('/rekening/lra/api/jenis/{idkel}', 'apilrajenis')->name('opd.apilrajenis');
     Route::get('/rekening/lra/api/objek/{idjenis}', 'apilraobjek')->name('opd.apilraobjek');
     Route::get('/rekening/lra/api/rincian/{idobjek}', 'apilrarincian')->name('opd.apilrarincian');
@@ -141,7 +145,7 @@ Route::controller(RekeningController::class)->group(function () {
 });
 
 // Data Pendukung
-Route::controller(DataPendukungController::class)->group(function () {
+Route::controller(DataPendukungController::class)->middleware('auth')->group(function () {
     Route::get('/datapendukung', 'index')->name('datadukung.index');
 
     // Lokasi
@@ -156,7 +160,7 @@ Route::controller(DataPendukungController::class)->group(function () {
 });
 
 // Pengaturan
-Route::controller(PengaturanController::class)->group(function () {
+Route::controller(PengaturanController::class)->middleware('auth')->group(function () {
     Route::get('/pengaturan/rkpd', 'rkpd')->name('pengaturan.rkpd');
     Route::post('/pengaturan/tahapan', 'tahapan')->name('pengaturan.tahapan');
     Route::post('/pengaturan/tahapan/lock', 'tahapanlock')->name('pengaturan.tahapanlock');
@@ -169,7 +173,7 @@ Route::controller(PengaturanController::class)->group(function () {
 });
 
 // Pengaturan Pagu OPD
-Route::controller(PaguController::class)->group(function () {
+Route::controller(PaguController::class)->middleware('auth')->group(function () {
     Route::get('/pengaturan/pagu', 'paguopd')->name('pengaturan.paguopd');
     Route::post('/pengaturan/pagu/store', 'pagustore')->name('pengaturan.pagustore');
     Route::post('/pengaturan/pagu/update/reguler/', 'paguupdatereguler')->name('pengaturan.paguupdatereguler');
@@ -178,7 +182,7 @@ Route::controller(PaguController::class)->group(function () {
 });
 
 // Ajax For HTML Return
-Route::controller(AjaxHtmlReturn::class)->group(function () {
+Route::controller(AjaxHtmlReturn::class)->middleware('auth')->group(function () {
     // Pindahan dengan sumber dana
     Route::get('/ajax/opd/except/{idopd}', 'opdexcept')->name('ajax.opdexcept');
     Route::get('/ajax/bidang/pindah/{idopd}', 'getbidangpindah')->name('ajax.getbidangpindah');
@@ -194,11 +198,11 @@ Route::controller(AjaxHtmlReturn::class)->group(function () {
 });
 
 // History
-Route::controller(HistoryController::class)->group(function () {
+Route::controller(HistoryController::class)->middleware('auth')->group(function () {
     Route::get('/history/pagu', 'historypagu')->name('history.historypagu');
 });
 
-Route::controller(RanwalController::class)->group(function () {
+Route::controller(RanwalController::class)->middleware('auth')->group(function () {
     Route::get('/renja/rancangan/awal', 'ranwal')->name('ranwal.ranwal');
     Route::get('/renja/rancangan/awal/opd/{id}', 'ranwalopd')->name('ranwal.ranwalopd');
     // Create Renja Ranwal
@@ -215,7 +219,7 @@ Route::controller(RanwalController::class)->group(function () {
     Route::get('/renja/rancangan/awal/cetak/opd/{id}', 'cetakrenja')->name('ranwal.cetakrenja');
 });
 
-Route::controller(RanwalRutinController::class)->group(function () {
+Route::controller(RanwalRutinController::class)->middleware('auth')->group(function () {
     Route::post('/ranwalrutin/store', 'store')->name('ranwalrutin.store');
     Route::post('/ranwalrutin/destory', 'destory')->name('ranwalrutin.destory');
     Route::post('/ranwalrutin/subrincian/store', 'subrincianstore')->name('ranwalrutin.subrincianstore');
@@ -226,7 +230,7 @@ Route::controller(RanwalRutinController::class)->group(function () {
 });
 
 // Standar Harga SSH Route
-Route::controller(SshController::class)->group(function () {
+Route::controller(SshController::class)->middleware('auth')->group(function () {
     Route::get('/standarharga/ssh', 'ssh')->name('ssh.ssh');
     Route::post('/standarharga/ssh/store', 'sshstore')->name('ssh.sshstore');
     Route::post('/standarharga/ssh/update', 'sshupdate')->name('ssh.sshupdate');
@@ -237,7 +241,7 @@ Route::controller(SshController::class)->group(function () {
 });
 
 // Standar Harga HSPK Route
-Route::controller(HspkController::class)->group(function () {
+Route::controller(HspkController::class)->middleware('auth')->group(function () {
     Route::get('/standarharga/hspk', 'hspk')->name('hspk.hspk');
     Route::post('/standarharga/hspk/store', 'hspkstore')->name('hspk.hspkstore');
     Route::post('/standarharga/hspk/update', 'hspkupdate')->name('hspk.hspkupdate');
@@ -247,7 +251,7 @@ Route::controller(HspkController::class)->group(function () {
 });
 
 // Standar Harga ASB Route
-Route::controller(AsbController::class)->group(function () {
+Route::controller(AsbController::class)->middleware('auth')->group(function () {
     Route::get('/standarharga/asb', 'asb')->name('asb.asb');
     Route::post('/standarharga/asb/store', 'asbstore')->name('asb.asbstore');
     Route::post('/standarharga/asb/update', 'asbupdate')->name('asb.asbupdate');
@@ -257,7 +261,7 @@ Route::controller(AsbController::class)->group(function () {
 });
 
 // Standar Harga SBU Route
-Route::controller(SbuController::class)->group(function () {
+Route::controller(SbuController::class)->middleware('auth')->group(function () {
     Route::get('/standarharga/sbu', 'sbu')->name('sbu.sbu');
     Route::post('/standarharga/sbu/store', 'sbustore')->name('sbu.sbustore');
     Route::post('/standarharga/sbu/update', 'sbuupdate')->name('sbu.sbuupdate');
@@ -267,7 +271,7 @@ Route::controller(SbuController::class)->group(function () {
 });
 
 // RKA OPD
-Route::controller(RkaRanwalRutinController::class)->group(function () {
+Route::controller(RkaRanwalRutinController::class)->middleware('auth')->group(function () {
     Route::get('/rka/rutin/opd/{idopd}/renja/{idrenja}/rincian/{idsubrincian}', 'rkarutin')->name('rkarutin.rkarutin');
     Route::post('/rka/rutin/store', 'rkarutinstore')->name('rkarutin.rkarutinstore');
     Route::post('/rka/rutin/update', 'rkarutinupdate')->name('rkarutin.rkarutinupdate');
@@ -277,7 +281,7 @@ Route::controller(RkaRanwalRutinController::class)->group(function () {
 });
 
 // RKA OPD
-Route::controller(RkaRanwalController::class)->group(function () {
+Route::controller(RkaRanwalController::class)->middleware('auth')->group(function () {
     Route::get('/rka/ranwal/opd/{idopd}/renja/{idrenja}/rincian/{idsubrincian}', 'rkaranwal')->name('rkaranwal.rkaranwal');
     Route::post('/rka/ranwal/store', 'rkaranwalstore')->name('rkaranwal.rkaranwalstore');
     Route::post('/rka/ranwal/update', 'rkaranwalupdate')->name('rkaranwal.rkaranwalupdate');
@@ -287,20 +291,23 @@ Route::controller(RkaRanwalController::class)->group(function () {
 });
 
 // Rekening Belanja Tag Kategori
-Route::controller(TagKategoriBelanjaController::class)->group(function () {
+Route::controller(TagKategoriBelanjaController::class)->middleware('auth')->group(function () {
     Route::get('/rekening/belanja', 'tagrekeningbelanja')->name('neraca.rekeningbelanja');
     Route::post('/rekening/belanja', 'storetagrekeningbelanja');
     Route::post('/rekening/belanja/autotag', 'autotagrekeningbelanja')->name('neraca.autotagging.rekeningbelanja');
 });
 
 // Rekening Belanja Tag Kategori
-Route::controller(StandarHargaController::class)->group(function () {
+Route::controller(StandarHargaController::class)->middleware('auth')->group(function () {
     // GET
     Route::get('/standarharga/all', 'standarhargahome')->name('standarharga.home');
     Route::get('/standarharga/cetak/{tahun}', 'standarhargacetak')->name('standarharga.cetak');
 
-    //POST
-    Route::post('/standarharga/all', 'storestandarharga');
+    // UPLOAD
+    Route::post('/standarharga/upload', 'storestandarharga')->name('standarharga.upload');
+    // UPDATE
+    Route::post('/standarharga/update', 'updatetandarharga')->name('standarharga.update');
 });
 
 require __DIR__ . '/api.php';
+require __DIR__ . '/auth.php';

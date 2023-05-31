@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('rekening_objek')->nullable();
             $table->string('rekening_rincian')->nullable();
             $table->string('rekening_subrincian')->nullable();
+            $table->text('rekening_uraian')->nullable();
 
             /**
              * Kategori
@@ -34,6 +35,7 @@ return new class extends Migration
             $table->string('kategori_objek')->nullable();
             $table->string('kategori_rincian')->nullable();
             $table->string('kategori_subrincian')->nullable();
+            $table->text('kategori_uraian')->nullable();
 
             /**
              * Uraian Komponen

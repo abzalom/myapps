@@ -24,55 +24,180 @@ class Navbar extends Component
     public function render()
     {
         $navs = [
-            'Renja' => [
-                '/renja/rancangan/awal' => 'Rancangan Awal'
+            [
+                'name' => 'Renja',
+                'drop' => [
+                    [
+                        'name' => 'Rancangan Awal',
+                        'link' => '/renja/rancangan/awal',
+                        'role' => ['admin', 'user'],
+                    ],
+                ],
+                'role' => ['admin', 'user'],
             ],
-            'Master' => [
-                '/perangkat' => 'OPD',
-                '/pendapatan' => 'Pendapatan',
+            [
+                'name' => 'Master',
+                'drop' => [
+                    [
+                        'name' => 'OPD',
+                        'link' => '/perangkat',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Pendapatan',
+                        'link' => '/pendapatan',
+                        'role' => ['admin'],
+                    ],
+                ],
+                'role' => ['admin'],
             ],
-            'Referensi' => [
-                '/rekening/neraca' => 'Rekening Neraca',
-                '/rekening/lra' => 'Rekening LRA',
-                '/rekening/lo' => 'Rekening LO',
-                '/datapendukung' => 'Data Pendukung',
-                '/nomens/urusan' => 'Nomenklatur',
-                '/rekening/belanja' => 'Rekening Belanja',
+            [
+                'name' => 'Referensi',
+                'drop' => [
+                    [
+                        'name' => 'Rekening Neraca',
+                        'link' => '/rekening/neraca',
+                        'role' => ['admin', 'user'],
+                    ],
+                    [
+                        'name' => 'Rekening LRA',
+                        'link' => '/rekening/lra',
+                        'role' => ['admin', 'user'],
+                    ],
+                    [
+                        'name' => 'Rekening LO',
+                        'link' => '/rekening/lo',
+                        'role' => ['admin', 'user'],
+                    ],
+
+                    [
+                        'name' => 'Nomenklatur',
+                        'link' => '/nomens/urusan',
+                        'role' => ['admin', 'user'],
+                    ],
+                    [
+                        'name' => 'Rekening Belanja',
+                        'link' => '/rekening/belanja',
+                        'role' => ['admin', 'user'],
+                    ],
+                ],
+                'role' => ['admin', 'user'],
             ],
-            'Pengaturan' => [
-                '/pengaturan/rkpd' => 'RKPD',
-                '/pengaturan/pagu' => 'Pagu OPD',
-                '/datapendukung' => 'Data Pendukung',
-                '/pengaturan/store/table' => 'Store Table',
-                '/olahdata' => 'Olah Data',
+            [
+                'name' => 'Pengaturan',
+                'drop' => [
+                    [
+                        'name' => 'RKPD',
+                        'link' => '/pengaturan/rkpd',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Pagu OPD',
+                        'link' => '/pengaturan/pagu',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Pagu OPD',
+                        'link' => '/pengaturan/pagu',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Data Pendukung',
+                        'link' => '/datapendukung',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Store Table',
+                        'link' => '/pengaturan/store/table',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Olah Data',
+                        'link' => '/olahdata',
+                        'role' => ['admin'],
+                    ],
+                ],
+                'role' => ['admin'],
             ],
-            'Catatan' => [
-                '/history/pagu' => 'History pagu OPD',
+            [
+                'name' => 'Catatan',
+                'drop' => [
+                    [
+                        'name' => 'History pagu OPD',
+                        'link' => '/history/pagu',
+                        'role' => ['admin'],
+                    ],
+                ],
+                'role' => ['admin'],
             ],
-            'Rutin' => [
-                '/rutin' => 'Rutin',
-                '/rutin/kegiatan' => 'Kegiatan',
-                '/rutin/subkegiatan' => 'Sub Kegiatan',
+            [
+                'name' => 'Rutin',
+                'drop' => [
+                    [
+                        'name' => 'Rutin',
+                        'link' => '/rutin',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Kegiatan',
+                        'link' => '/rutin/kegiatan',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Sub Kegiatan',
+                        'link' => '/rutin/subkegiatan',
+                        'role' => ['admin'],
+                    ],
+                ],
+                'role' => ['admin'],
             ],
-            'Standar Harga' => [
-                '/standarharga/all' => 'Home',
-                '/standarharga/ssh' => '1. SSH',
-                '/standarharga/hspk' => '2. HSPK',
-                '/standarharga/asb' => '3. ASB',
-                '/standarharga/sbu' => '4. SBU',
-                '/standarharga/cetak' => 'Cetak',
+            [
+                'name' => 'Standar Harga',
+                'drop' => [
+                    [
+                        'name' => 'Home',
+                        'link' => '/standarharga/all',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => '1. SSH',
+                        'link' => '/standarharga/ssh',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => '2. HSPK',
+                        'link' => '/standarharga/hspk',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => '3. ASB',
+                        'link' => '/standarharga/asb',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => '4. SBU',
+                        'link' => '/standarharga/sbu',
+                        'role' => ['admin'],
+                    ],
+                    [
+                        'name' => 'Cetak',
+                        'link' => '/standarharga/cetak',
+                        'role' => ['admin'],
+                    ],
+                ],
+                'role' => ['admin'],
             ],
-            'Rekening LRA' => [
-                '/rekening/lra/rekap/4' => 'Pendapatan',
-            ],
-            'Laporan' => [
-                '#renja' => 'Renja',
-                '#rka' => 'RKA',
-            ],
-            'Olah Data' => [
-                '/olahdata/nomenklatur' => 'Nomenklatur',
-                '/olahdata/standarharga/2022' => 'Standar Harga 2022'
-            ],
+            // 'Rekening LRA' => [
+            //     '/rekening/lra/rekap/4' => 'Pendapatan',
+            // ],
+            // 'Laporan' => [
+            //     '#renja' => 'Renja',
+            //     '#rka' => 'RKA',
+            // ],
+            // 'Olah Data' => [
+            //     '/olahdata/nomenklatur' => 'Nomenklatur',
+            //     '/olahdata/standarharga/2022' => 'Standar Harga 2022'
+            // ],
         ];
         return view('components.navbar', compact('navs'));
     }

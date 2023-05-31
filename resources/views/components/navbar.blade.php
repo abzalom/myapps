@@ -6,40 +6,42 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                @foreach ($navs as $link => $name)
-                    @if (!is_array($name))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ $link }}">{{ $name }}</a>
+                @foreach ($navs as $menu)
+                    @foreach ($menu['role'] as $role)
+                        @role($role)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ $menu['name'] }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach ($menu['drop'] as $drop)
+                                        @foreach ($drop['role'] as $dropRole)
+                                            @role($dropRole)
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ $drop['link'] }}">{{ $drop['name'] }}</a>
+                                                </li>
+                                            @endrole
+                                        @endforeach
+                                    @endforeach
+                                </ul>
+                            @endrole
                         </li>
-                    @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $link }}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach ($name as $link2 => $name2)
-                                    @if ($link == 'Laporan')
-                                        <li><a class="dropdown-item" href="{{ $link2 }}" target="_blank">{!! $name2 !!}</a></li>
-                                    @else
-                                        <li><a class="dropdown-item" href="{{ $link2 }}">{!! $name2 !!}</a></li>
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </li>
-                    @endif
+                    @endforeach
                 @endforeach
-            </ul>
-            {{-- <div class="d-flex">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">History</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user"></i> {{ str(auth()->user()->username)->title() }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <form action="{{ route('auth.logout') }}" method="post">
+                                @csrf
+                                <button class="dropdown-item" href="#">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-        </div>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> --}}
         </div>
     </div>
 </nav>

@@ -82,6 +82,7 @@ class ApiNeracaController extends Controller
 
     public function kategorineracasearch(Request $request, $kategori)
     {
+        // return $kategori;
         if (isset($request->q)) {
             return B6SubrincianNeraca::search($request->q)->where('kode_kategori_ssh', $kategori)->orderBy('id')->get();
         } else {
